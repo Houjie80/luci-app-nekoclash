@@ -36,16 +36,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          repository: Houjie80/luci-app-nekoclash
           ref: main
 
-      - name: Preparing Theme
-        run: |
-              echo ""
-              git clone -b neko-theme https://github.com/nosignals/neko
-              cp ./neko/theme/* ./luci-app-neko/htdocs/nekoclash/assets/theme/
-              cp ./neko/img/* ./luci-app-neko/htdocs/nekoclash/assets/img/
-        
       - name: Preparing Neko
         run: |
               echo ""
