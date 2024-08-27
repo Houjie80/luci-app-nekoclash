@@ -36,7 +36,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          ref: luci-app-neko
+          repository: Houjie80/luci-app-nekoclash
+          ref: main
 
       - name: Preparing Theme
         run: |
