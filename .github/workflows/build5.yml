@@ -38,14 +38,8 @@ jobs:
         with:
           ref: main
 
-      - name: Preparing Neko
-        run: |
-              echo ""
-              mkdir feeds artifacts
-              cp -rf ./luci-app-neko ./feeds
-        
       - name: Building Luci Neko
-        uses: nosignals/gh-action-sdk@main
+        uses: Houjie80/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.release }}
           ARTIFACTS_DIR: ${{ github.workspace }}/artifacts
