@@ -4,7 +4,7 @@ include './cfg.php';
 $dirPath = "$neko_dir/config";
 $tmpPath = "$neko_www/lib/selected_config.txt";
 $arrFiles = array();
-$arrFiles = array_merge(glob("$dirPath/*.yaml"), glob("$dirPath/*.json")); 
+$arrFiles = array_merge(glob("$dirPath/*.yaml"), glob("$dirPath/*.json"));
 
 
 $error = "";
@@ -19,7 +19,7 @@ if (isset($_POST['clashconfig'])) {
         shell_exec("echo $dt > $tmpPath");
         $selected_config = $dt;
     } else {
-        $error = "选择的文件内容不是有效的 JSON 格式，请选择另一个配置文件。"; 
+        $error = "The selected file content is not in valid JSON format, please select another configuration file.";
     }
 }
 if(isset($_POST['neko'])){
@@ -43,7 +43,7 @@ include './cfg.php';
     <script type="text/javascript" src="./assets/js/bootstrap.min.js"></script>
   </head>
   <body>
-         <title>双击显示图标</title>
+         <title>Double click to display the icon</title>
     <style>
         .container-sm {
             margin: 20px auto;
@@ -61,10 +61,10 @@ include './cfg.php';
             var btn = document.getElementById('showHideButton');
             if (img.style.display === 'none') {
                 img.style.display = 'block';
-                btn.innerText = '隐藏图标';
+                btn.innerText = 'Hide icon';
             } else {
                 img.style.display = 'none';
-                btn.innerText = '显示图标';
+                btn.innerText = 'Display icon';
             }
         }
 
@@ -73,7 +73,7 @@ include './cfg.php';
             var btn = document.getElementById('showHideButton');
             if (img.style.display === 'block') {
                 img.style.display = 'none';
-                btn.innerText = '显示图标';
+                btn.innerText = 'Display icon';
             }
         }
 
@@ -83,16 +83,16 @@ include './cfg.php';
     </script>
     <div class="container-sm container-bg text-center callout border border-3 rounded-4 col-11">
         <div class="row">
-            <a href="./" class="col btn btn-lg">首页</a>
-            <a href="./dashboard.php" class="col btn btn-lg">面板</a>
-            <a href="#" class="col btn btn-lg">配置</a>
-            <a href="./settings.php" class="col btn btn-lg">设定</a>
+            <a href="./" class="col btn btn-lg">Home</a>
+            <a href="./dashboard.php" class="col btn btn-lg">Dashboard</a>
+            <a href="#" class="col btn btn-lg">Configuration</a>
+            <a href="./settings.php" class="col btn btn-lg">Settings</a>
         </div>
     </div>
     <div class="container text-left p-3">
         
         <div class="container container-bg border border-3 rounded-4 col-12 mb-4">
-            <h2 class="text-center p-2">配置</h2>
+            <h2 class="text-center p-2">Configuration</h2>
             <form action="configs.php" method="post">
                 <div class="container text-center justify-content-md-center">
                     <div class="row justify-content-md-center">
@@ -104,8 +104,8 @@ include './cfg.php';
                         </div>
                         <div class="row justify-content-md-center">
                             <div class="btn-group d-grid d-md-flex justify-content-md-center mb-5" role="group">
-                              <input class="btn btn-info" type="submit" value="更改配置">
-                              <button name="neko" type="submit" value="应用" class="btn btn-warning d-grid">应用</button>
+                              <input class="btn btn-info" type="submit" value="Change configuration">
+                              <button name="neko" type="submit" value="Apply" class="btn btn-warning d-grid">Apply</button>
                             </div>
                         </div>
                     </div>
@@ -115,32 +115,32 @@ include './cfg.php';
 <div class="container container-bg border border-3 rounded-4 col-12 mb-4"></br>
     <ul class="nav text-center justify-content-md-center">
         <li class="nav-item">
-            <a class="col btn btn-lg active" data-bs-toggle="tab" href="#info">配置</a>
+            <a class="col btn btn-lg active" data-bs-toggle="tab" href="#info">Configuration</a>
         </li>
         <li class="nav-item">
-            <a class="col btn btn-lg" data-bs-toggle="tab" href="#proxy">代理</a>
+            <a class="col btn btn-lg" data-bs-toggle="tab" href="#proxy">Proxy</a>
         </li>
         <li class="nav-item">
-            <a class="col btn btn-lg" data-bs-toggle="tab" href="#rules">规则</a>
+            <a class="col btn btn-lg" data-bs-toggle="tab" href="#rules">Rules</a>
         </li>
         <li class="nav-item">
-            <a class="col btn btn-lg" data-bs-toggle="tab" href="#converter">转换</a>
+            <a class="col btn btn-lg" data-bs-toggle="tab" href="#converter">Convert</a>
         </li>
         <li class="nav-item">
-            <a class="col btn btn-lg" data-bs-toggle="tab" href="#upload">订阅</a>
+            <a class="col btn btn-lg" data-bs-toggle="tab" href="#upload">Subscribe</a>
         </li>
     </ul>
       </div>
         <div class="container container-bg border border-3 rounded-4 col-12 mb-4"></br>
           <div class="tab-content">
             <div id="info" class="tab-pane fade show active">
-                <h2 class="text-center p-2">配置资讯</h2>
+                <h2 class="text-center p-2">Configuration Information</h2>
                     <table class="table table-borderless callout mb-5">
                         <tbody>
                             <tr class="text-center">
-                                <td class="col-2">HTTP 端口</td>
-                                <td class="col-2">Redir 端口</td>
-                                <td class="col-2">Socks 端口</td>
+                                HTTP Port
+                                <td class="col-2">Redir Port</td>
+                                <td class="col-2">Socks Port</td>
                             </tr>
                             <tr class="text-center">
                                 <td class="col-2">
@@ -154,9 +154,9 @@ include './cfg.php';
                                 </td>
                             </tr>
                             <tr class="text-center">
-                                <td class="col-2">混合 端口</td>
-                                <td class="col-2">TProxy 端口</td>
-                                <td class="col-2">模式</td>
+                                <td class="col-2">Mixed Port</td>
+                                <td class="col-2">TProxy Port</td>
+                                <td class="col-2">Mode</td>
                             </tr>
                             <tr class="text-center">
                                 <td class="col-2">
@@ -170,9 +170,9 @@ include './cfg.php';
                                 </td>
                             </tr>
                             <tr class="text-center">
-                                <td class="col-2">增強型</td>
-                                <td class="col-2">密钥</td>
-                                <td class="col-2">控制器</td>
+                                <td class="col-2">Enhanced</td>
+                                <td class="col-2">Key</td>
+                                <td class="col-2">Controller</td>
                             </tr>
                             <tr class="text-center">
                                 <td class="col-2">
@@ -187,25 +187,25 @@ include './cfg.php';
                             </tr>
                         </tbody>
                     </table>
-                    <h2 class="text-center p-2">配置</h2>
+                    <h2 class="text-center p-2">Configuration</h2>
                     <div class="container h-100 mb-5">
                         <iframe class="rounded-4 w-100" scrolling="no" height="700" src="./configconf.php" title="yacd" allowfullscreen></iframe>
                     </div>
                 </div>
                 <div id="proxy" class="tab-pane fade">
-                    <h2 class="text-center p-2">代理编辑器</h2>
+                    <h2 class="text-center p-2">Proxy Editor</h2>
                     <div class="container h-100 mb-5">
                         <iframe class="rounded-4 w-100" scrolling="no" height="700" src="./proxyconf.php" title="yacd" allowfullscreen></iframe>
                     </div>
                 </div>
                 <div id="rules" class="tab-pane fade">
-                    <h2 class="text-center p-2">规则编辑器</h2>
+                    <h2 class="text-center p-2">Rule Editor</h2>
                     <div class="container h-100 mb-5">
                         <iframe class="rounded-4 w-100" scrolling="no" height="700" src="./rulesconf.php" title="yacd" allowfullscreen></iframe>
                     </div>
                 </div>
                 <div id="converter" class="tab-pane fade">
-                    <h2 class="text-center p-2 mb-5">转换器</h2>
+                    <h2 class="text-center p-2 mb-5">Converter</h2>
                     <div class="container h-100">
                         <iframe class="rounded-4 w-100" scrolling="no" height="700" src="./yamlconv.php" title="yacd" allowfullscreen></iframe>
                          </div>
@@ -258,12 +258,12 @@ include './cfg.php';
             exec($command . ' 2>&1', $output, $return_var);
 
             if ($return_var === 0) {
-                $message = "订阅链接 {$url} 更新成功！文件已保存到: {$finalPath}";
+                $message = "Subscription link {$url} updated successfully! The file has been saved to: {$finalPath}";
             } else {
-                $message = "配置更新失败！错误信息: " . implode("\n", $output);
+                $message = "Configuration update failed! Error message: " . implode("\n", $output);
             }
         } else {
-            $message = "第" . ($index + 1) . "个订阅链接为空！";
+            $message = "The" . ($index + 1) . "subscription link is empty!";
         }
 
         file_put_contents($subscriptionFile, json_encode($subscriptions));
@@ -279,15 +279,15 @@ include './cfg.php';
         ];
 
         file_put_contents($autoUpdateConfigFile, json_encode($autoUpdateConfig));
-        $message = "自动更新设置已保存！";
+        $message = "Auto-update settings saved!";
     }
     ?>
     <!DOCTYPE html>
-    <html lang="zh-CN">
+    <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mihomo订阅程序</title>
+        <title>Mihomo Subscription Program</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -327,7 +327,7 @@ include './cfg.php';
         text-decoration: none;
     }
     .btn-primary {
-        background-color: #007bff; 
+        background-color: #007bff;
     }
     .btn-primary:hover {
         background-color: #0056b3;
@@ -354,23 +354,23 @@ include './cfg.php';
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
-    background-color: #B0C4DE; 
-    border: 1px solid #ccc; 
+    background-color: #B0C4DE;
+    border: 1px solid #ccc;
     }
 </style>
 
     </head>
     <body>
         <div class="container">
-            <h1 class="text-center" style="color: #00FF7F;">Mihomo订阅程序</h1>
+            <h1 class="text-center" style="color: #00FF7F;">Mihomo Subscription Program</h1>
             <p class="help-text text-center">
-                Mihomo订阅支持所有格式《Base64/clash格式/节点链接》
+                Mihomo subscription supports all formats 《Base64/clash format/node link》
                 <br><br>
-                <a href="/nekoclash/upload.php" class="btn btn-primary">打开Mihomo订阅管理器</a>
-                <a href="/nekoclash/upload_sb.php" class="btn btn-primary">Sing-box专用订阅管理器</a>
+                <a href="/nekoclash/upload.php" class="btn btn-primary">Open Mihomo Subscription Manager</a>
+                <a href="/nekoclash/upload_sb.php" class="btn btn-primary">Sing-box dedicated subscription manager</a>
                 <br><br>     
             </p>
-<h2 class="text-center" style="color: #00FF7F;">订阅管理</h2>
+<h2 class="text-center" style="color: #00FF7F;">Subscription Management</h2>
  <div class="form-spacing"></div>
             <?php if ($message): ?>
                 <p><?php echo nl2br(htmlspecialchars($message)); ?></p>
@@ -378,39 +378,39 @@ include './cfg.php';
             <?php for ($i = 0; $i < 7; $i++): ?>
                 <form method="post" class="mb-3">
                     <div class="input-group">
-                        <label for="subscription_url_<?php echo $i; ?>" class="sr-only">订阅链接 <?php echo ($i + 1); ?>:</label>
-                        <input type="text" name="subscription_url" id="subscription_url_<?php echo $i; ?>" value="<?php echo htmlspecialchars($subscriptions[$i]['url']); ?>" required class="form-control">
-                        <input type="text" name="custom_file_name" id="custom_file_name_<?php echo $i; ?>" value="<?php echo htmlspecialchars($subscriptions[$i]['file_name']); ?>" class="form-control ml-2" placeholder="自定义文件名">
+                        <label for="subscription_url_<?php echo $i; ?>" class="sr-only">Subscription link<?php echo ($i + 1); ?>:</label>
+                        <input type="text" name="subscription_url" id="subscription_url_<?php echo $i; ?>" value="<?php echo htmlspecialchars($subscriptions[$i]['url']); ?> " required class="form-control">
+                        <input type="text" name="custom_file_name" id="custom_file_name_<?php echo $i; ?>" value="<?php echo htmlspecialchars($subscriptions[$i]['file_name']); ?> " class="form-control ml-2" placeholder="custom file name">
                         <input type="hidden" name="index" value="<?php echo $i; ?>">
-                        <button type="submit" name="update" class="btn btn-primary btn-custom ml-2">更新配置</button>
+                        <button type="submit" name="update" class="btn btn-primary btn-custom ml-2">Update configuration</button>
                </div>
      </form>
 <?php endfor; ?>
 <div class="container container-bg border border-3 rounded-4 col-12 mb-4">
-    <h2 class="text-center p-2 mb-3">小提示</h2>
+    Tips
     <div class="container text-center border border-3 rounded-4 col-10 mb-4">
     <p style="color: #87CEEB; text-align: left;">
     <p style="text-align: center; font-size: 24px; color: #87CEEB;">
-    <strong>播放器功能说明</strong>
+    <strong>Player Function Description</strong>
     </p>
 
     <p style="color: #87CEEB; text-align: left;">
-    <strong>1. 歌曲推送和控制：</strong><br>
-    &emsp; 1 播放器通过 GitHub 歌单推送歌曲。<br>
-    &emsp; 2 使用键盘方向键可以切换歌曲。<br>
-    &emsp; 3 终端输入 <code>./nekoclash.sh</code> 可以更新客户端和核心。<br>
-    &emsp; 4 sing-box 内置智能转换机制，无论您从哪个机场获取订阅，都能自动适配，无需额外配置。<br><br>
+    <strong>1. Song push and control:</strong><br>
+    1 The player pushes songs through GitHub playlists.<br>
+    2 Use the arrow keys to switch songs. <br>
+    3 Enter <code>./nekoclash.sh</code> in the terminal to update the client and core. <br>
+    4 sing-box has a built-in intelligent conversion mechanism, which can automatically adapt to any airport you get the subscription from without any additional configuration. <br><br>
 
-    <strong>2. 播放功能：</strong><br>
-    &emsp; 1 自动播放下一首歌曲：如果启用了播放功能，自动播放下一首歌曲。歌曲列表到达末尾时，会循环到第一首歌曲。<br>
-    &emsp; 2 启用/禁用播放：通过点击或按下 Escape 键，可以启用或禁用播放功能。当禁用时，当前播放将被停止，并且无法选择或播放新歌曲。<br><br>
+    <strong>2. Playback function:</strong><br>
+    1 Automatically play next song: If the play function is enabled, automatically play the next song. When the song list reaches the end, it will loop to the first song. <br>
+    2 Enable/Disable Playback: By clicking or pressing the Escape key, the playback function can be enabled or disabled. When disabled, the current playback will be stopped and new songs cannot be selected or played. <br><br>
 
-    <strong>3. 键盘控制：</strong><br>
-    &emsp; 1 提供了箭头 ⇦ ⇨ 键和空格键的快捷控制，支持上下首切换和播放/暂停。<br><br>
+    <strong>3. Keyboard control:</strong><br>
+    1 Provides shortcut controls for the arrow keys ⇦ ⇨ and the space bar, supporting up and down switching and play/pause. <br><br>
 
-    <strong>4. 播放模式：</strong><br>
-    &emsp; 1 循环播放和顺序播放：可以通过按钮和键盘快捷 ⇧ 键切换循环播放和顺序播放的模式。
-       </p>特别说明：<code>iptables</code> 固件只适配了 Mihomo，非 <code>nftables</code> 的固件不要使用 sing-box，有什么问题后果自负  </p>
+    <strong>4. Playback Mode:</strong><br>
+    1 Loop playback and sequential playback: You can switch between loop playback and sequential playback modes using buttons and keyboard shortcuts ⇧.
+       </p>Special note: <code>iptables</code> firmware is only compatible with Mihomo. Do not use sing-box with non-<code>nftables</code> firmware. Any problems will be at your own risk.</p>
     </p>
         <?php
             error_reporting(E_ALL);
@@ -432,9 +432,9 @@ include './cfg.php';
 
             if (isValidIp($routerIp) && !in_array($routerIp, ['0.0.0.0', '255.255.255.255'])) {
                 $controlPanelUrl = "http://$routerIp/nekoclash";
-                echo '<span style="color: #87CEEB;">独立控制面板地址:</span> <a href="' . $controlPanelUrl . '" style="color: red;" target="_blank"><code>' . $controlPanelUrl . '</code></a><br>';
+                echo '<span style="color: #87CEEB;">Independent control panel address:</span> <a href="' . $controlPanelUrl . '" style="color: red;" target="_blank"><code>' . $controlPanelUrl . '</code></a><br>';
             } else {
-                echo "无法获取路由器的 IP 地址。错误信息: $routerIp";
+                echo "Unable to obtain the router's IP address. Error message: $routerIp";
             }
             ?>
         </p>
