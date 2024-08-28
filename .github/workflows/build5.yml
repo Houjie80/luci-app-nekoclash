@@ -45,6 +45,13 @@ jobs:
           ARTIFACTS_DIR: ${{ github.workspace }}/artifacts
           FEED_DIR: ${{ github.workspace }}/feeds
           PACKAGES: luci-app-neko
+            cd sdk
+            echo "src-git base https://github.com/openwrt/openwrt.git;openwrt-${{ env.sdk_ver }}" > feeds.conf
+            echo "src-git packages https://github.com/openwrt/packages.git;openwrt-${{ env.sdk_ver }}" >> feeds.conf
+            echo "src-git luci https://github.com/openwrt/luci.git;openwrt-${{ env.sdk_ver }}" >> feeds.conf
+            echo "src-git routing https://git.openwrt.org/feed/routing.git;openwrt-${{ env.sdk_ver }}"  >> feeds.conf
+            echo "src-git luci-app-nekoclash https://github.com/Hoyjie80/luci-app-nekoclash.git;t" >> feeds.conf
+            ./scripts/feeds update -a
             echo "CONFIG_PACKAGE_luci-app-nekoclash=m" > .config
             ./scripts/feeds install -d n luci-app-nekoclash
             make download -j8
