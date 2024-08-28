@@ -12,12 +12,12 @@ function controlSingbox($action) {
     global $singBoxPath;
     $command = "$singBoxPath $action";
     exec($command);
-    return isSingboxRunning() ? '运行中' : '已停止';
+    return isSingboxRunning() ? 'Running' : 'Stopped';
 }
 
 function getSystemMetrics() {
     $cpuLoad = sys_getloadavg();
-    $cpuCount = shell_exec("nproc"); 
+    $cpuCount = shell_exec("nproc");
     $cpuCount = intval(trim($cpuCount));
     
     if ($cpuCount <= 0) {
@@ -33,7 +33,7 @@ function getSystemMetrics() {
 }
 
 function getNetworkTraffic() {
-    $interface = 'eth0'; 
+    $interface = 'eth0';
     $stats = shell_exec("cat /proc/net/dev | grep '$interface' | awk '{print $2\" \"$10}'");
     
     if ($stats) {
@@ -61,7 +61,7 @@ function formatBytes($bytes) {
 }
 
 function getRealTimeNetworkTraffic() {
-    $interface = 'eth0'; 
+    $interface = 'eth0';
     $statsFile = '/tmp/network_traffic.txt';
     
     $currentStats = shell_exec("cat /proc/net/dev | grep '$interface' | awk '{print $2\" \"$10}'");
@@ -73,8 +73,8 @@ function getRealTimeNetworkTraffic() {
     list($receivedOld, $transmittedOld) = explode(' ', trim($currentStats));
     list($receivedNew, $transmittedNew) = explode(' ', trim($newStats));
     
-    $downloadSpeed = $receivedNew - $receivedOld;
-    $uploadSpeed = $transmittedNew - $transmittedOld;
+    $downloadSpeed ​​= $receivedNew - $receivedOld;
+    $uploadSpeed ​​= $transmittedNew - $transmittedOld;
     
     return [
         'downloadSpeed' => $downloadSpeed,
@@ -88,7 +88,7 @@ if (isset($_POST['action'])) {
 
 $metrics = getSystemMetrics();
 $networkTraffic = getNetworkTraffic();
-$singbox_status = isSingboxRunning() ? '运行中' : '已停止';
+$singbox_status = isSingboxRunning() ? 'Running' : 'Stopped';
 
 if (isset($_GET['metrics'])) {
     header('Content-Type: application/json');
@@ -110,17 +110,17 @@ if (isset($_GET['real_time_network'])) {
 
 if (isset($_GET['status'])) {
     header('Content-Type: application/json');
-    echo json_encode(['singbox_status' => isSingboxRunning() ? '运行中' : '已停止']);
+    echo json_encode(['singbox_status' => isSingboxRunning() ? 'Running' : 'Stopped']);
     exit;
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sing-box 控制面板</title>
+    <title>Sing-box Control Panel</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -188,25 +188,25 @@ if (isset($_GET['status'])) {
             text-decoration: none;
             border-radius: 5px;
             font-size: 1em;
-            color: #fff; 
+            color: #fff;
         }
         .nav-buttons a:hover {
             opacity: 0.8;
         }
         .back-button {
-            background: #333; 
+            background: #333;
         }
         .current-menu-button {
-            background: #007bff; 
+            background: #007bff;
         }
         .config-menu-button {
-            background: #28a745; 
+            background: #28a745;
         }
         .monitoring-button {
-            background: #ffc107; 
+            background: #ffc107;
         }
         .main-menu-button {
-            background: #dc3545; 
+            background: #dc3545;
         }
         .real-time-speed {
             position: fixed;
@@ -219,7 +219,7 @@ if (isset($_GET['status'])) {
             font-size: 1.5em;
             font-weight: bold;
             z-index: 10;
-            perspective: 1000px; 
+            perspective: 1000px;
         }
         .real-time-speed div {
             transform-style: preserve-3d;
@@ -235,44 +235,44 @@ if (isset($_GET['status'])) {
             border: 1px solid #0056b3;
         }
         .low-speed {
-            background: #00d4ff; 
+            background: #00d4ff;
         }
         .medium-speed {
-            background: #00bfff; 
+            background: #00bfff;
         }
         .high-speed {
-            background: #1e90ff; 
+            background: #1e90ff;
         }
         .very-high-speed {
-            background: #0000ff; 
+            background: #0000ff;
         }
     </style>
 </head>
 <body>
     <div id="animation"></div>
     <div class="container">
-        <h1>Sing-box 监控面板</h1>
+        <h1>Sing-box Monitoring Panel</h1>
         <div class="status">
-            当前状态: <span class="status-text <?php echo $singbox_status === '运行中' ? 'status-running' : 'status-stopped'; ?>"><?php echo $singbox_status; ?></span>
+            Current status: <span class="status-text <?php echo $singbox_status === 'Running' ? 'status-running' : 'status-stopped'; ?>"><?php echo $singbox_status; ?></span>
         </div>
         <div class="metrics">
-            <div>CPU 负载: <span class="metrics-text" id="cpuLoad"><?php echo $metrics['cpuLoad']; ?></span></div>
-            <div>内存使用: <span class="metrics-text" id="memoryUsage"><?php echo $metrics['memoryUsage']; ?></span></div>
-            <div>下载流量: <span class="metrics-text" id="downloadTraffic"><?php echo formatBytes($networkTraffic['download']); ?></span></div>
-            <div>上传流量: <span class="metrics-text" id="uploadTraffic"><?php echo formatBytes($networkTraffic['upload']); ?></span></div>
+            <div>CPU load: <span class="metrics-text" id="cpuLoad"><?php echo $metrics['cpuLoad']; ?></span></div>
+            <div>Memory usage: <span class="metrics-text" id="memoryUsage"><?php echo $metrics['memoryUsage']; ?></span></div>
+            <div>Download traffic: <span class="metrics-text" id="downloadTraffic"><?php echo formatBytes($networkTraffic['download']); ?></span></div>
+            <div>Upload traffic: <span class="metrics-text" id="uploadTraffic"><?php echo formatBytes($networkTraffic['upload']); ?></span></div>
         </div>
         <div class="nav-buttons">
-            <a href="javascript:history.back()" class="current-menu-button">返回上一级菜单</a>
-            <a href="/nekoclash/configs.php" class="config-menu-button">返回配置菜单</a>
-            <a href="/nekoclash/upload_sb.php" class="monitoring-button">Sing-box 管理面板</a>
-            <a href="/nekoclash" class="main-menu-button">返回主菜单</a>
+            <a href="javascript:history.back()" class="current-menu-button">Return to the previous menu</a>
+            <a href="/nekoclash/configs.php" class="config-menu-button">Return to Configuration Menu</a>
+            <a href="/nekoclash/upload_sb.php" class="monitoring-button">Sing-box Admin Panel</a>
+            <a href="/nekoclash" class="main-menu-button">Return to the main menu</a>
         </div>
     </div>
 
     <div class="real-time-speed">
         <div>
-            <span style="color: blue; background-color: lightyellow;">实时下载速度:</span><span id="downloadSpeed">0 B/s</span><br> 
-            <span style="color: orange; background-color: lightblue;">实时上传速度:</span><span id="uploadSpeed">0 B/s</span> 
+            <span style="color: blue; background-color: lightyellow;">Real-time download speed:</span><span id="downloadSpeed">0 B/s</span><br>
+            <span style="color: orange; background-color: lightblue;">Real-time upload speed:</span><span id="uploadSpeed">0 B/s</span>
         </div>
     </div>
 
@@ -340,10 +340,10 @@ if (isset($_GET['status'])) {
         }
 
         function getSpeedClass(speed) {
-            if (speed < 1024) return 'low-speed'; 
-            if (speed < 1024 * 10) return 'medium-speed'; 
-            if (speed < 1024 * 100) return 'high-speed'; 
-            return 'very-high-speed'; 
+            if (speed < 1024) return 'low-speed';
+            if (speed < 1024 * 10) return 'medium-speed';
+            if (speed < 1024 * 100) return 'high-speed';
+            return 'very-high-speed';
         }
 
         function formatBytes(bytes) {
@@ -363,7 +363,7 @@ if (isset($_GET['status'])) {
                 .then(data => {
                     const statusText = document.querySelector('.status-text');
                     statusText.textContent = data.singbox_status;
-                    statusText.className = 'status-text ' + (data.singbox_status === '运行中' ? 'status-running' : 'status-stopped');
+                    statusText.className = 'status-text ' + (data.singbox_status === 'Running' ? 'status-running' : 'status-stopped');
                 });
         }
 
@@ -372,7 +372,7 @@ if (isset($_GET['status'])) {
         setInterval(fetchRealTimeNetworkTraffic, 1000);  
         setInterval(updateStatus, 5000);
 
-        updateMetrics(); 
+        updateMetrics();
         updateNetworkTraffic();
         updateRealTimeNetworkTraffic();
         updateStatus();
