@@ -194,7 +194,7 @@ $translate = [
     'Psychz Networks' => 'Psychz Networks',
     'GreenGeeks' => 'Green Geeks'
 ];
-$lang = $_GET['lang'] ?? 'en';
+$lang = $_GET['lang'] ?? 'Indonesia';
 ?>
 
 <!DOCTYPE html>
