@@ -27,18 +27,9 @@ $neko_status=exec("uci -q get neko.cfg.enabled");
     <script type="text/javascript" src="./assets/js/neko.js"></script>
   </head>
   <body>
-</div>
-  <title>Double click to display the icon</title>
-    <style>
-        .container-sm {
-            margin: 20px auto;
-            position: relative;
-        }
-        .draggable {
-            position: absolute;
-            cursor: move;
-        }
-    </style>
+    <div class="container-sm text-center col-8">
+	    <img src="./assets/img/neko.png" class="img-fluid mb-5">
+    </div>
 </head>
 <body>
     <div class="container-sm text-center col-8">
