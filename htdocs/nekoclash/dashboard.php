@@ -43,35 +43,8 @@ $dashboard_link = $neko_cfg['ctrl_host'] . ':' . $neko_cfg['ctrl_port'] . '/ui/d
 </head>
 <body>
     <div class="container-sm text-center col-8">
-        <img src="./assets/img/neko.png" class="img-fluid mb-5" style="display: none;">
+	    <img src="./assets/img/neko.png" class="img-fluid mb-5">
     </div>
-
-    <script>
-        function toggleImage() {
-            var img = document.querySelector('.container-sm img');
-            var btn = document.getElementById('showHideButton');
-            if (img.style.display === 'none') {
-                img.style.display = 'block';
-                btn.innerText = 'Hide icon';
-            } else {
-                img.style.display = 'none';
-                btn.innerText = 'Display icon';
-            }
-        }
-
-        function hideIcon() {
-            var img = document.querySelector('.container-sm img');
-            var btn = document.getElementById('showHideButton');
-            if (img.style.display === 'block') {
-                img.style.display = 'none';
-                btn.innerText = 'Display icon';
-            }
-        }
-
-        document.body.ondblclick = function() {
-            toggleImage();
-        };
-    </script>
 
     <div class="container-sm container-bg text-center callout border border-3 rounded-4 col-11">
         <div class="row">
