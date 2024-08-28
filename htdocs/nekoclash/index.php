@@ -28,7 +28,7 @@ $neko_status=exec("uci -q get neko.cfg.enabled");
   </head>
   <body>
 </div>
-  <title>双击显示图标</title>
+  <title>Double click to display the icon</title>
     <style>
         .container-sm {
             margin: 20px auto;
@@ -42,7 +42,7 @@ $neko_status=exec("uci -q get neko.cfg.enabled");
 </head>
 <body>
     <div class="container-sm text-center col-8">
-        <img src="./assets/img/photo.png" class="img-fluid mb-5 draggable" style="display: none;">
+	    <img src="./assets/img/neko.png" class="img-fluid mb-5">
     </div>
 
     <script>
@@ -51,10 +51,10 @@ $neko_status=exec("uci -q get neko.cfg.enabled");
             var btn = document.getElementById('showHideButton');
             if (img.style.display === 'none') {
                 img.style.display = 'block';
-                btn.innerText = '隐藏图标';
+                btn.innerText = 'Hide icon';
             } else {
                 img.style.display = 'none';
-                btn.innerText = '显示图标';
+                btn.innerText = 'Display icon';
             }
         }
 
@@ -63,7 +63,7 @@ $neko_status=exec("uci -q get neko.cfg.enabled");
             var btn = document.getElementById('showHideButton');
             if (img.style.display === 'block') {
                 img.style.display = 'none';
-                btn.innerText = '显示图标';
+                btn.innerText = 'Display icon';
             }
         }
 
@@ -94,114 +94,114 @@ $neko_status=exec("uci -q get neko.cfg.enabled");
     </script>
     <div class="container-sm container-bg text-center callout border border-3 rounded-4 col-11">
         <div class="row">
-            <a href="#" class="col btn btn-lg">首页</a>
-            <a href="./dashboard.php" class="col btn btn-lg">面板</a>
-            <a href="./configs.php" class="col btn btn-lg">配置</a>
-            <a href="./settings.php" class="col btn btn-lg">设定</a>
+            <a href="#" class="col btn btn-lg">Home</a>
+            <a href="./dashboard.php" class="col btn btn-lg">Dashboard</a>
+            <a href="./configs.php" class="col btn btn-lg">Configuration</a>
+            <a href="./settings.php" class="col btn btn-lg">Settings</a>
         </div>
     </div>
     <div class="container text-left p-3">
        
         <div class="container container-bg border border-3 rounded-4 col-12 mb-4">
-    <h2 class="text-center p-2">运行状况</h2>
+    <h2 class="text-center p-2">Operation Status</h2>
     <table class="table table-borderless mb-2">
         <div class="container container-bg border border-3 rounded-4 col-12 mb-4">
    <br>
 <?php
 $translate = [
-    'United States' => '美国',
-    'China' => '中国',
-    'ISP' => '互联网服务提供商',
-    'Japan' => '日本',
-    'South Korea' => '韩国',
-    'Germany' => '德国',
-    'France' => '法国',
-    'United Kingdom' => '英国',
-    'Canada' => '加拿大',
-    'Australia' => '澳大利亚',
-    'Russia' => '俄罗斯',
-    'India' => '印度',
-    'Brazil' => '巴西',
-    'Netherlands' => '荷兰',
-    'Singapore' => '新加坡',
-    'Hong Kong' => '香港',
-    'Saudi Arabia' => '沙特阿拉伯',
-    'Turkey' => '土耳其',
-    'Italy' => '意大利',
-    'Spain' => '西班牙',
-    'Thailand' => '泰国',
-    'Malaysia' => '马来西亚',
-    'Indonesia' => '印度尼西亚',
-    'South Africa' => '南非',
-    'Mexico' => '墨西哥',
-    'Israel' => '以色列',
-    'Sweden' => '瑞典',
-    'Switzerland' => '瑞士',
-    'Norway' => '挪威',
-    'Denmark' => '丹麦',
-    'Belgium' => '比利时',
-    'Finland' => '芬兰',
-    'Poland' => '波兰',
-    'Austria' => '奥地利',
-    'Greece' => '希腊',
-    'Portugal' => '葡萄牙',
-    'Ireland' => '爱尔兰',
-    'New Zealand' => '新西兰',
-    'United Arab Emirates' => '阿拉伯联合酋长国',
-    'Argentina' => '阿根廷',
-    'Chile' => '智利',
-    'Colombia' => '哥伦比亚',
-    'Philippines' => '菲律宾',
-    'Vietnam' => '越南',
-    'Pakistan' => '巴基斯坦',
-    'Egypt' => '埃及',
-    'Nigeria' => '尼日利亚',
-    'Kenya' => '肯尼亚',
-    'Morocco' => '摩洛哥',
-    'Google' => '谷歌',
-    'Amazon' => '亚马逊',
-    'Microsoft' => '微软',
-    'Facebook' => '脸书',
-    'Apple' => '苹果',
+    'United States' => 'United States',
+    'China' => 'China',
+    'ISP' => 'Internet Service Provider',
+    'Japan' => 'Japan',
+    'South Korea' => 'South Korea',
+    'Germany' => 'Germany',
+    'France' => 'France',
+    'United Kingdom' => 'United Kingdom',
+    'Canada' => 'Canada',
+    'Australia' => 'Australia',
+    'Russia' => 'Russia',
+    'India' => 'India',
+    'Brazil' => 'Brazil',
+    'Netherlands' => 'Netherlands',
+    'Singapore' => 'Singapore',
+    'Hong Kong' => 'Hong Kong',
+    'Saudi Arabia' => 'Saudi Arabia',
+    'Turkey' => 'Türkiye',
+    'Italy' => 'Italy',
+    'Spain' => 'Spain',
+    'Thailand' => 'Thailand',
+    'Malaysia' => 'Malaysia',
+    'Indonesia' => 'Indonesia',
+    'South Africa' => 'South Africa',
+    'Mexico' => 'Mexico',
+    'Israel' => 'Israel',
+    'Sweden' => 'Sweden',
+    'Switzerland' => 'Switzerland',
+    'Norway' => 'Norway',
+    'Denmark' => 'Denmark',
+    'Belgium' => 'Belgium',
+    'Finland' => 'Finland',
+    'Poland' => 'Poland',
+    'Austria' => 'Austria',
+    'Greece' => 'Greece',
+    'Portugal' => 'Portugal',
+    'Ireland' => 'Ireland',
+    'New Zealand' => 'New Zealand',
+    'United Arab Emirates' => 'United Arab Emirates',
+    'Argentina' => 'Argentina',
+    'Chile' => 'Chile',
+    'Colombia' => 'Colombia',
+    'Philippines' => 'Philippines',
+    'Vietnam' => 'Vietnam',
+    'Pakistan' => 'Pakistan',
+    'Egypt' => 'Egypt',
+    'Nigeria' => 'Nigeria',
+    'Kenya' => 'Kenya',
+    'Morocco' => 'Morocco',
+    'Google' => 'Google',
+    'Amazon' => 'Amazon',
+    'Microsoft' => 'Microsoft',
+    'Facebook' => 'Facebook',
+    'Apple' => 'Apple',
     'IBM' => 'IBM',
-    'Alibaba' => '阿里巴巴',
-    'Tencent' => '腾讯',
-    'Baidu' => '百度',
-    'Verizon' => '威瑞森',
-    'AT&T' => '美国电话电报公司',
-    'T-Mobile' => 'T-移动',
-    'Vodafone' => '沃达丰',
-    'China Telecom' => '中国电信',
-    'China Unicom' => '中国联通',
-    'China Mobile' => '中国移动', 
-    'Chunghwa Telecom' => '中华电信',   
-    'Amazon Web Services (AWS)' => '亚马逊网络服务 (AWS)',
-    'Google Cloud Platform (GCP)' => '谷歌云平台 (GCP)',
-    'Microsoft Azure' => '微软Azure',
-    'Oracle Cloud' => '甲骨文云',
-    'Alibaba Cloud' => '阿里云',
-    'Tencent Cloud' => '腾讯云',
-    'DigitalOcean' => '数字海洋',
-    'Linode' => '林诺德',
-    'OVHcloud' => 'OVH 云',
-    'Hetzner' => '赫兹纳',
-    'Vultr' => '沃尔特',
+    'Alibaba' => 'Alibaba',
+    'Tencent' => 'Tencent',
+    'Baidu' => 'Baidu',
+    'Verizon' => 'Verizon',
+    'AT&T' => 'American Telephone and Telegraph Company',
+    'T-Mobile' => 'T-Mobile',
+    'Vodafone' => 'Vodafone',
+    'China Telecom' => 'China Telecom',
+    'China Unicom' => 'China Unicom',
+    'China Mobile' => 'China Mobile',
+    'Chunghwa Telecom' => 'Chunghwa Telecom',   
+    'Amazon Web Services (AWS)' => 'Amazon Web Services (AWS)',
+    'Google Cloud Platform (GCP)' => 'Google Cloud Platform (GCP)',
+    'Microsoft Azure' => 'Microsoft Azure',
+    'Oracle Cloud' => 'Oracle Cloud',
+    'Alibaba Cloud' => 'Alibaba Cloud',
+    'Tencent Cloud' => 'Tencent Cloud',
+    'DigitalOcean' => 'Digital Ocean',
+    'Linode' => 'Linode',
+    'OVHcloud' => 'OVH Cloud',
+    'Hetzner' => 'Hetzner',
+    'Vultr' => 'Vultr',
     'OVH' => 'OVH',
-    'DreamHost' => '梦想主机',
-    'InMotion Hosting' => '动态主机',
-    'HostGator' => '主机鳄鱼',
-    'Bluehost' => '蓝主机',
-    'A2 Hosting' => 'A2主机',
-    'SiteGround' => '站点地',
-    'Liquid Web' => '液态网络',
-    'Kamatera' => '卡玛特拉',
+    'DreamHost' => 'Dream Host',
+    'InMotion Hosting' => 'Dynamic Hosting',
+    'HostGator' => 'HostGator',
+    'Bluehost' => 'Bluehost',
+    'A2 Hosting' => 'A2 Hosting',
+    'SiteGround' => 'Site Ground',
+    'Liquid Web' => 'Liquid Web',
+    'Kamatera' => 'Kamatera',
     'IONOS' => 'IONOS',
-    'InterServer' => '互联服务器',
-    'Hostwinds' => '主机之风',
-    'ScalaHosting' => '斯卡拉主机',
-    'Networks' => '网络',
-    'Psychz Networks' => 'Psychz网络',
-    'GreenGeeks' => '绿色极客'
+    'InterServer' => 'InterServer',
+    'Hostwinds' => 'Hostwinds',
+    'ScalaHosting' => 'Scala Hosting',
+    'Networks' => 'Networks',
+    'Psychz Networks' => 'Psychz Networks',
+    'GreenGeeks' => 'Green Geeks'
 ];
 $lang = $_GET['lang'] ?? 'en';
 ?>
@@ -229,51 +229,51 @@ $lang = $_GET['lang'] ?? 'en';
     <style>
         .status {
             display: flex;
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
         }
 
         .img-con {
-            margin-bottom: 1rem; 
+            margin-bottom: 1rem;
         }
 
         .img-con img {
-            width: 65px; 
-            height: auto; 
+            width: 65px;
+            height: auto;
         }
 
         .green {
-            font-size: .9rem; 
-            color: #2dce89; 
+            font-size: .9rem;
+            color: #2dce89;
         }
 
         .red {
-            font-size: .9rem; 
-            color: #fb6340; 
+            font-size: .9rem;
+            color: #fb6340;
         }
 
         .yellow {
-            font-size: .9rem; 
-            color: #fb9a05; 
+            font-size: .9rem;
+            color: #fb9a05;
         }
 
         .block {
-            font-size: .8125rem; 
-            font-weight: 600; 
-            color: #8898aa; 
-            line-height: 1.8em; 
-            margin: 0; 
+            font-size: .8125rem;
+            font-weight: 600;
+            color: #8898aa;
+            line-height: 1.8em;
+            margin: 0;
         }
 
         .ip-address {
-            color: #2dce89; 
-            margin-bottom: 0.5rem; 
+            color: #2dce89;
+            margin-bottom: 0.5rem;
         }
 
         .info {
-            color: #fb6340; 
+            color: #fb6340;
         }
     </style>
 </head>
@@ -282,7 +282,7 @@ $lang = $_GET['lang'] ?? 'en';
     <fieldset class="cbi-section">
         <div class="status">
             <div class="img-con">
-                <img src="/nekoclash/assets/neko/img/loading.svg" id="flag" class="pure-img" title="国旗">
+                <img src="/nekoclash/assets/neko/img/loading.svg" id="flag" class="pure-img" title="flag">
             </div>
             <div class="block">
                 <p id="d-ip" class="green ip-address">Checking...</p>
@@ -309,7 +309,7 @@ $lang = $_GET['lang'] ?? 'en';
                     return Promise.all([resp.ok, resp.status, resp.json(), resp.headers]);
             }).then(([ok, status, data, headers]) => {
                 if (ok) {
-                    return { ok, status, data, headers };
+                    return {ok, status, data, headers};
                 } else {
                     throw new Error(JSON.stringify(data.error));
                 }
@@ -340,7 +340,7 @@ $lang = $_GET['lang'] ?? 'en';
 
             // Check system language
             if (data.country === 'Taiwan') {
-                country = (navigator.language === 'en') ? 'China Taiwan' : '中国台湾省';
+                country = (navigator.language === 'en') ? 'China Taiwan' : 'Taiwan Province of China';
             }
 
             document.getElementById(elID).innerHTML = `${country} ${isp} ${asnOrganization}`;
@@ -355,7 +355,7 @@ $lang = $_GET['lang'] ?? 'en';
                 IP.get(`https://api.ipify.org?format=json&z=${random}`, 'json')
                     .then((resp) => {
                         let ip = resp.data.ip;
-                        cachedIP = ip; 
+                        cachedIP = ip;
                         document.getElementById('d-ip').innerHTML = ip;
                         return ip;
                     })
@@ -382,10 +382,10 @@ $singbox_status = 0;
 $neko_status = 0;
 
 $logDir = '/etc/neko/tmp/';
-$logFile = $logDir . 'log.txt'; 
+$logFile = $logDir . 'log.txt';
 $kernelLogFile = $logDir . 'neko_log.txt';
-$singBoxLogFile = $logDir . 'singbox_log.txt'; 
-$singboxStartLogFile = $logDir . 'singbox_start_log.txt'; 
+$singBoxLogFile = $logDir . 'singbox_log.txt';
+$singboxStartLogFile = $logDir . 'singbox_start_log.txt';
 
 $singBoxPath = '/usr/bin/sing-box';
 $configFilePath = '/etc/neko/config/config.json';
@@ -426,7 +426,7 @@ table inet singbox {
     }
   }
 
-  chain singbox-tproxy {
+  chain singbox-tproxy
     fib daddr type { unspec, local, anycast, multicast } return
     ip daddr @local_ipv4 return
     ip6 daddr @local_ipv6 return
@@ -434,7 +434,7 @@ table inet singbox {
     meta l4proto { tcp, udp } meta mark set 1 tproxy to :9888 accept
   }
 
-  chain singbox-mark {
+  chain singbox-mark
     fib daddr type { unspec, local, anycast, multicast } return
     ip daddr @local_ipv4 return
     ip6 daddr @local_ipv6 return
@@ -447,7 +447,7 @@ table inet singbox {
     meta l4proto { tcp, udp } skgid != 1 ct direction original goto singbox-mark
   }
 
-  chain mangle-prerouting {
+  chain mangle-prerouting
     type filter hook prerouting priority mangle; policy accept;
     iifname { lo, eth0 } meta l4proto { tcp, udp } ct direction original goto singbox-tproxy
   }
@@ -467,7 +467,7 @@ $maxFileSize = 2 * 1024 * 1024;
 $maxBackupFiles = 2;  
 
 function rotateLogFile($filePath) {
-    $backupPath = $filePath . '-' . date('Y-m-d-H-i-s') . '.bak';
+    $backupPath = $filePath . '-' . date('YmdHis') . '.bak';
     rename($filePath, $backupPath);  
     touch($filePath);  
     cleanUpOldBackups(dirname($filePath), basename($filePath));
@@ -513,23 +513,23 @@ function isMihomoRunning() {
 }
 
 if (isSingboxRunning()) {
-    $singbox_status = 1; 
+    $singbox_status = 1;
 } else {
-    $singbox_status = 0; 
+    $singbox_status = 0;
 }
 
 if (isMihomoRunning()) {
-    $neko_status = 1; 
+    $neko_status = 1;
 } else {
-    $neko_status = 0; 
+    $neko_status = 0;
 }
 
 if ($neko_status == 1) {
-    $str_cfg = 'Mihomo 配置文件';
+    $str_cfg = 'Mihomo configuration file';
 } elseif ($singbox_status == 1) {
-    $str_cfg = 'Sing-box 配置文件';
+    $str_cfg = 'Sing-box configuration file';
 } else {
-    $str_cfg = '无运行中的服务';
+    $str_cfg = 'No service running';
 }
 
 function getSingboxVersion() {
@@ -539,11 +539,11 @@ function getSingboxVersion() {
     if ($returnVar === 0) {
         foreach ($output as $line) {
             if (strpos($line, 'version') !== false) {
-                return trim(substr($line, strpos($line, 'version') + 8)); 
+                return trim(substr($line, strpos($line, 'version') + 8));
             }
         }
     }
-    return '未知版本';
+    return 'Unknown version';
 }
 
 function getSingboxPID() {
@@ -593,44 +593,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             createStartScript();
             exec("/etc/neko/core/start.sh > $singBoxLogFile 2>&1 &", $output, $returnVar);
             $version = getSingboxVersion();
-            $logMessage = $returnVar === 0 ? "Sing-box 已启动，版本号: $version" : "启动 Sing-box 失败";
-            logToFile($logFile, $logMessage); 
+            $logMessage = $returnVar === 0 ? "Sing-box has been started, version number: $version" : "Failed to start Sing-box";
+            logToFile($logFile, $logMessage);
             $singbox_status = $returnVar === 0 ? 1 : 0;
         } elseif ($_POST['singbox'] === 'disable') {
             $success = stopSingbox();
-            $logMessage = $success ? "Sing-box 已停止" : "停止 Sing-box 失败";
-            logToFile($logFile, $logMessage); 
+            $logMessage = $success ? "Sing-box stopped" : "Failed to stop Sing-box";
+            logToFile($logFile, $logMessage);
             $singbox_status = $success ? 0 : $singbox_status;
         } elseif ($_POST['singbox'] === 'restart') {
             $success = stopSingbox();
             if ($success) {
-                checkLogFileSize($singBoxLogFile, $maxFileSize); 
+                checkLogFileSize($singBoxLogFile, $maxFileSize);
                 applyFirewallRules();
                 createStartScript();
                 exec("/etc/neko/core/start.sh > $singBoxLogFile 2>&1 &", $output, $returnVar);
                 $version = getSingboxVersion();
-                $logMessage = $returnVar === 0 ? "Sing-box 已重启，版本号: $version" : "重启 Sing-box 失败";
-                logToFile($logFile, $logMessage); 
+                $logMessage = $returnVar === 0 ? "Sing-box has been restarted, version number: $version" : "Failed to restart Sing-box";
+                logToFile($logFile, $logMessage);
                 $singbox_status = $returnVar === 0 ? 1 : 0;
             } else {
-                logToFile($logFile, "停止 Sing-box 失败"); 
+                logToFile($logFile, "Failed to stop Sing-box");
             }
         }
     }
 
     if (isset($_POST['clear_singbox_log'])) {
-        file_put_contents($singBoxLogFile, ''); 
-        $message = 'Sing-box 运行日志已清空';
+        file_put_contents($singBoxLogFile, '');
+        $message = 'Sing-box operation log has been cleared';
     }
 
     if (isset($_POST['clear_plugin_log'])) {
-        file_put_contents($logFile, ''); 
-        $message = '插件日志已清空';
+        file_put_contents($logFile, '');
+        $message = 'Plugin log has been cleared';
     }
 
     if (isset($_POST['clear_kernel_log'])) {
-        file_put_contents($kernelLogFile, ''); 
-        $message = '内核日志已清空';
+        file_put_contents($kernelLogFile, '');
+        $message = 'The kernel log has been cleared';
     }
 }
 
@@ -638,74 +638,74 @@ function readLogFile($filePath) {
     if (file_exists($filePath)) {
         return nl2br(htmlspecialchars(readRecentLogLines($filePath, 1000)));
     } else {
-        return '日志文件不存在。';
+        return 'The log file does not exist. ';
     }
 }
 
-$logContent = readLogFile($logFile); 
+$logContent = readLogFile($logFile);
 $kernelLogContent = readLogFile($kernelLogFile);
-$singboxLogContent = readLogFile($singBoxLogFile); 
-$singboxStartLogContent = readLogFile($singboxStartLogFile); 
+$singboxLogContent = readLogFile($singBoxLogFile);
+$singboxStartLogContent = readLogFile($singboxStartLogFile);
 ?>
 
 <div class="container container-bg border border-3 col-12 mb-4">
-    <h2 class="text-center p-2">NekoClash 控制面板</h2>
+    <h2 class="text-center p-2">NekoClash Control Panel</h2>
     <table class="table table-borderless mb-2">
         <tbody>
             <tr>
-        <td>状态</td>
+        <td>Status</td>
         <td class="d-grid">
             <div class="btn-group col" role="group" aria-label="ctrl">
                 <?php
                     if ($neko_status == 1) {
-                        echo "<button type=\"button\" class=\"btn btn-success\">Mihomo 运行中</button>\n";
+                        echo "<button type=\"button\" class=\"btn btn-success\">Mihomo is running</button>\n";
                     } else {
-                        echo "<button type=\"button\" class=\"btn btn-outline-danger\">Mihomo 未运行</button>\n";
+                        echo "<button type=\"button\" class=\"btn btn-outline-danger\">Mihomo is not running</button>\n";
                     }
 
                     echo "<button type=\"button\" class=\"btn btn-warning d-grid\">$str_cfg</button>\n";
 
                     if ($singbox_status == 1) {
-                        echo "<button type=\"button\" class=\"btn btn-success\">Sing-box 运行中</button>\n";
+                        echo "<button type=\"button\" class=\"btn btn-success\">Sing-box is running</button>\n";
                     } else {
-                        echo "<button type=\"button\" class=\"btn btn-outline-danger\">Sing-box 未运行</button>\n";
+                        echo "<button type=\"button\" class=\"btn btn-outline-danger\">Sing-box is not running</button>\n";
                     }
                 ?>
             </div>
         </td>
     </tr>
     <tr>
-        <td>控制</td>
+        <td>Control</td>
         <form action="index.php" method="post">
             <td class="d-grid">
                 <div class="btn-group col" role="group" aria-label="ctrl">
-                    <button type="submit" name="neko" value="start" class="btn btn<?php if ($neko_status == 1) echo "-outline" ?>-success <?php if ($neko_status == 1) echo "disabled" ?> d-grid">启用 Mihomo</button>
-                    <button type="submit" name="neko" value="disable" class="btn btn<?php if ($neko_status == 0) echo "-outline" ?>-danger <?php if ($neko_status == 0) echo "disabled" ?> d-grid">停用 Mihomo</button>
-                    <button type="submit" name="neko" value="restart" class="btn btn<?php if ($neko_status == 0) echo "-outline" ?>-warning <?php if ($neko_status == 0) echo "disabled" ?> d-grid">重启 Mihomo</button>
+                    <button type="submit" name="neko" value="start" class="btn btn<?php if ($neko_status == 1) echo "-outline" ?>-success <?php if ($neko_status = = 1) echo "disabled" ?> d-grid">Enable Mihomo</button>
+                    <button type="submit" name="neko" value="disable" class="btn btn<?php if ($neko_status == 0) echo "-outline" ?>-danger <?php if ($neko_status = = 0) echo "disabled" ?> d-grid">Disable Mihomo</button>
+                    <button type="submit" name="neko" value="restart" class="btn btn<?php if ($neko_status == 0) echo "-outline" ?>-warning <?php if ($neko_status = = 0) echo "disabled" ?> d-grid">Restart Mihomo</button>
                 </div>
             </td>
         </form>
         <form action="index.php" method="post">
             <td class="d-grid">
                 <div class="btn-group col" role="group" aria-label="ctrl">
-                    <button type="submit" name="singbox" value="start" class="btn btn<?php if ($singbox_status == 1) echo "-outline" ?>-success <?php if ($singbox_status == 1) echo "disabled" ?> d-grid">启用 Sing-box</button>
-                    <button type="submit" name="singbox" value="disable" class="btn btn<?php if ($singbox_status == 0) echo "-outline" ?>-danger <?php if ($singbox_status == 0) echo "disabled" ?> d-grid">停用 Sing-box</button>
-                    <button type="submit" name="singbox" value="restart" class="btn btn<?php if ($singbox_status == 0) echo "-outline" ?>-warning <?php if ($singbox_status == 0) echo "disabled" ?> d-grid">重启 Sing-box</button>
+                    <button type="submit" name="singbox" value="start" class="btn btn<?php if ($singbox_status == 1) echo "-outline" ?>-success <?php if ($singbox_status = = 1) echo "disabled" ?> d-grid">Enable Sing-box</button>
+                    <button type="submit" name="singbox" value="disable" class="btn btn<?php if ($singbox_status == 0) echo "-outline" ?>-danger <?php if ($singbox_status = = 0) echo "disabled" ?> d-grid">Disable Sing-box</button>
+                    <button type="submit" name="singbox" value="restart" class="btn btn<?php if ($singbox_status == 0) echo "-outline" ?>-warning <?php if ($singbox_status = = 0) echo "disabled" ?> d-grid">Restart Sing-box</button>
                 </div>
             </td>
         </form>
     </tr>
     <tr>
-        <td>运行模式</td>
+        <td>Operation Mode</td>
         <td class="d-grid">
              <?php
              $mode_placeholder = '';
              if ($neko_status == 1) {
              $mode_placeholder = $neko_cfg['echanced'] . " | " . $neko_cfg['mode'];
              } elseif ($singbox_status == 1) {
-             $mode_placeholder = "Rule 模式";
+             $mode_placeholder = "Rule Mode";
              } else {
-             $mode_placeholder = "未运行";
+             $mode_placeholder = "Not running";
              }
              ?>
             <input class="form-control text-center" name="mode" type="text" placeholder="<?php echo $mode_placeholder; ?>" disabled>
@@ -716,33 +716,33 @@ $singboxStartLogContent = readLogFile($singboxStartLogFile);
 </div>
 
 <div class="container container-bg border border-3 rounded-4 col-12 mb-4">
-    <h2 class="text-center p-2">系统信息</h2>
+    <h2 class="text-center p-2">System Information</h2>
     <table class="table table-borderless mb-2">
 
         <tbody>
             <tr>
-                <td>型号</td>
+                <td>Model</td>
                 <td class="col-7"><?php echo $devices ?></td>
             </tr>
             <tr>
-                <td>内存</td>
+                <td>Memory</td>
                 <td class="col-7"><?php echo "$ramUsage/$ramTotal MB" ?></td>
             </tr>
             <tr>
-                <td>固件版本</td>
+                <td>Firmware version</td>
                 <td class="col-7"><?php echo $OSVer ?></td>
             </tr>
             <tr>
-                <td>内核版本</td>
+                <td>Kernel version</td>
                 <td class="col-7"><?php echo $kernelv ?></td>
             </tr>
             <tr>
-                <td>平均负载</td>
+                <td>Average load</td>
                 <td class="col-7"><?php echo "$cpuLoadAvg1Min $cpuLoadAvg5Min $cpuLoadAvg15Min" ?></td>
             </tr>
             <tr>
-                <td>运行时间</td>
-                <td class="col-7"><?php echo "{$days}天 {$hours}小时 {$minutes}分钟 {$seconds}秒" ?></td>
+                <td>Running time</td>
+                <td class="col-7"><?php echo "{$days} days {$hours} hours {$minutes} minutes {$seconds} seconds" ?></td>
             </tr>
         </tbody>
     </table>
@@ -751,8 +751,8 @@ $singboxStartLogContent = readLogFile($singboxStartLogFile);
     <table class="table table-borderless mb-0">
         <tbody>
             <tr class="text-center">
-                <td class="col-2">下载-总计</td>
-                <td class="col-2">上传-总计</td>
+                <td class="col-2">Downloads-Total</td>
+                <td class="col-2">Upload-Total</td>
             </tr>
             <tr class="text-center">
                 <td class="col-2"><class id="downtotal">-</class></td>
@@ -762,7 +762,7 @@ $singboxStartLogContent = readLogFile($singboxStartLogFile);
     </table>
 </div>
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -773,26 +773,26 @@ $singboxStartLogContent = readLogFile($singboxStartLogFile);
             flex-direction: column;
             justify-content: space-between;
             height: 100%;
-            min-width: 0; 
+            min-width: 0;
         }
         .log-header {
             text-align: center;
             margin-bottom: 10px;
-            font-size: 1.1rem; 
+            font-size: 1.1rem;
         }
         .log-footer {
             display: flex;
-            justify-content: center; 
+            justify-content: center;
             margin-top: auto;
         }
         textarea.form-control {
-            height: 300px; 
-            width: 100%; 
-            resize: none; 
+            height: 300px;
+            width: 100%;
+            resize: none;
             padding: 10px;
             box-sizing: border-box;
-            white-space: pre-wrap; 
-            overflow-x: auto; 
+            white-space: pre-wrap;
+            overflow-x: auto;
         }
         .row {
             display: flex;
@@ -801,16 +801,16 @@ $singboxStartLogContent = readLogFile($singboxStartLogFile);
         }
         .col {
             flex: 1;
-            min-width: 0; 
+            min-width: 0;
         }
         .btn-clear-log {
             margin-bottom: 20px;
-            flex-shrink: 0; 
+            flex-shrink: 0;
         }
         .nav-buttons {
             display: flex;
             justify-content: center;
-            gap: 10px; 
+            gap: 10px;
             margin-top: 20px;
         }
         .nav-buttons a {
@@ -828,47 +828,47 @@ $singboxStartLogContent = readLogFile($singboxStartLogFile);
             opacity: 0.9;
         }
         .current-menu-button {
-            background-color: #6c757d; 
+            background-color: #6c757d;
             border-color: #6c757d;
         }
         .current-menu-button:hover {
-            background-color: #5a6268; 
+            background-color: #5a6268;
             border-color: #5a6268;
         }
         .config-menu-button {
-            background-color: #28a745; 
+            background-color: #28a745;
             border-color: #28a745;
         }
         .config-menu-button:hover {
-            background-color: #218838; 
+            background-color: #218838;
             border-color: #1e7e34;
         }
         .monitoring-button {
-            background-color: #ffc107; 
+            background-color: #ffc107;
             border-color: #ffc107;
         }
         .monitoring-button:hover {
-            background-color: #e0a800; 
+            background-color: #e0a800;
             border-color: #d39e00;
         }
         .box-menu-button {
-            background-color: #ff69b4; 
+            background-color: #ff69b4;
             border-color: #ff1493;     
             color: white;              
         }
         .box-menu-button:hover {
-            background-color: #ff69b4; 
+            background-color: #ff69b4;
             border-color: #ff1493;    
         }
         .current-menu-button {
-            background: #007bff; 
+            background: #007bff;
         }
         .main-menu-button {
-            background-color: #dc3545; 
+            background-color: #dc3545;
             border-color: #dc3545;
         }
         .main-menu-button:hover {
-            background-color: #c82333; 
+            background-color: #c82333;
             border-color: #bd2130;
         }
         footer {
@@ -878,27 +878,27 @@ $singboxStartLogContent = readLogFile($singboxStartLogFile);
 </head>
 <body>
     <div class="container container-bg border border-3 rounded-4 col-12 mb-4">
-        <h2 class="text-center p-2">日志</h2>
+        <h2 class="text-center p-2">Log</h2>
         <div class="row mt-3">
             <div class="col log-container">
-                <h4 class="log-header">插件日志</h4>
+                <h4 class="log-header">Plugin log</h4>
                 <textarea class="form-control" readonly><?php echo htmlspecialchars($logContent, ENT_QUOTES, 'UTF-8'); ?></textarea>
                 <form action="index.php" method="post" class="mt-3 log-footer">
-                    <button type="submit" name="clear_plugin_log" class="btn btn-danger btn-clear-log">清空插件日志</button>
+                    <button type="submit" name="clear_plugin_log" class="btn btn-danger btn-clear-log">Clear plugin log</button>
                 </form>
             </div>
             <div class="col log-container">
-                <h4 class="log-header">Mihomo 日志</h4>
+                <h4 class="log-header">Mihomo Log</h4>
                 <textarea class="form-control" readonly><?php echo htmlspecialchars($kernelLogContent, ENT_QUOTES, 'UTF-8'); ?></textarea>
                 <form action="index.php" method="post" class="mt-3 log-footer">
-                    <button type="submit" name="clear_kernel_log" class="btn btn-danger btn-clear-log">清空 Mihomo 日志</button>
+                    <button type="submit" name="clear_kernel_log" class="btn btn-danger btn-clear-log">Clear Mihomo log</button>
                 </form>
             </div>
             <div class="col log-container">
-                <h4 class="log-header">Sing-box 日志</h4>
+                <h4 class="log-header">Sing-box log</h4>
                 <textarea class="form-control" readonly><?php echo htmlspecialchars($singboxLogContent, ENT_QUOTES, 'UTF-8'); ?></textarea>
                 <form action="index.php" method="post" class="mt-3 log-footer">
-                    <button type="submit" name="clear_singbox_log" class="btn btn-danger btn-clear-log">清空 Sing-box 日志</button>
+                    <button type="submit" name="clear_singbox_log" class="btn btn-danger btn-clear-log">Clear Sing-box log</button>
                 </form>
             </div>
         </div>
@@ -906,11 +906,11 @@ $singboxStartLogContent = readLogFile($singboxStartLogFile);
     <script src="/www/nekoclash/assets/js/bootstrap.bundle.min.js"></script>
 <div class="container container-bg border border-3 rounded-4 col-12 mb-4 d-flex align-items-center justify-content-center" style="height: 100%;">
     <div class="nav-buttons text-center" style="height: 100%;">
-        <a href="/nekoclash/upload.php" class="config-menu-button d-block mb-2">打开Mihomo 管理面板</a>
-        <a href="/nekoclash/upload_sb.php" class="monitoring-button d-block mb-2">打开Sing-box 管理面板</a>
-        <a href="/nekoclash/box.php" class="box-menu-button d-block mb-2">打开Sing-box 转换模板</a>
-        <a href="/nekoclash/personal.php" class="current-menu-button d-block mb-2">打开Mihomo 个人版</a>
-        <a href="/nekoclash/mon.php" class="main-menu-button d-block mb-2">打开Sing-box 监控面板</a>
+        <a href="/nekoclash/upload.php" class="config-menu-button d-block mb-2">Open Mihomo Admin Panel</a>
+        <a href="/nekoclash/upload_sb.php" class="monitoring-button d-block mb-2">Open Sing-box admin panel</a>
+        <a href="/nekoclash/box.php" class="box-menu-button d-block mb-2">Open Sing-box conversion template</a>
+        <a href="/nekoclash/personal.php" class="current-menu-button d-block mb-2">Open Mihomo Personal Edition</a>
+        <a href="/nekoclash/mon.php" class="main-menu-button d-block mb-2">Open Sing-box monitoring panel</a>
     </div>
 </div>
 
