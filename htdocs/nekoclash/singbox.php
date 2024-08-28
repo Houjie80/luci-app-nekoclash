@@ -1,20 +1,20 @@
-<?php
-function logMessage($message) {
+<?php 
+function logMessage($message) { 
     $logFile = '/var/log/sing-box_update.log'; 
-    $timestamp = date('Y-m-d H:i:s');
-    file_put_contents($logFile, "[$timestamp] $message\n", FILE_APPEND);
-}
+    $timestamp = date('Y-m-d H:i:s'); 
+    file_put_contents($logFile, "[$timestamp] $message\n", FILE_APPEND); 
+} 
 
-function writeVersionToFile($version) {
-    $versionFile = '/etc/neko/core/version.txt';
-    $result = file_put_contents($versionFile, $version);
-    if ($result === false) {
-        logMessage("无法写入版本文件: $versionFile");
-        logMessage("检查路径是否存在，并确认 PHP 进程具有写权限。");
-    } else {
-        logMessage("成功写入版本文件: $versionFile");
-    }
-}
+function writeVersionToFile($version) { 
+    $versionFile = '/etc/neko/core/version.txt'; 
+    $result = file_put_contents($versionFile, $version); 
+    if ($result === false) { 
+        logMessage("Unable to write version file: $versionFile"); 
+        logMessage("Check if the path exists and that the PHP process has write permissions."); 
+    } else { 
+        logMessage("Successfully wrote version file: $versionFile"); 
+    } 
+} 
 
 $latest_version = '1.10.0-beta.4'; 
 $current_version = ''; 
@@ -22,102 +22,101 @@ $install_path = '/usr/bin/sing-box';
 $temp_file = '/tmp/sing-box.tar.gz'; 
 $temp_dir = '/tmp/singbox_temp'; 
 
-if (file_exists($install_path)) {
-    $current_version = trim(shell_exec("{$install_path} --version"));
-    logMessage("当前版本: $current_version");
-} else {
-    logMessage("当前版本文件不存在，将视为未安装。");
-}
+if (file_exists($install_path)) { 
+    $current_version = trim(shell_exec("{$install_path} --version")); 
+    logMessage("Current version: $current_version"); 
+} else { 
+    logMessage("The current version file does not exist and will be considered not installed."); 
+} 
 
-$current_arch = trim(shell_exec("uname -m"));
+$current_arch = trim(shell_exec("uname -m")); 
 
-$download_url = '';
-switch ($current_arch) {
-    case 'aarch64':
-        $download_url = 'https://github.com/SagerNet/sing-box/releases/download/v1.10.0-beta.4/sing-box-1.10.0-beta.4-linux-arm64.tar.gz';
-        break;
-    case 'x86_64':
-        $download_url = 'https://github.com/SagerNet/sing-box/releases/download/v1.10.0-beta.4/sing-box-1.10.0-beta.4-linux-amd64.tar.gz';
-        break;
-    default:
-        logMessage("未找到适合架构的下载链接: $current_arch");
-        echo "未找到适合架构的下载链接: $current_arch";
-        exit;
-}
+$download_url = ''; 
+switch ($current_arch) { 
+    case 'aarch64': 
+        $download_url = 'https://github.com/SagerNet/sing-box/releases/download/v1.10.0-beta.4/sing-box-1.10.0-beta.4-linux-arm64.tar.gz'; 
+        break; 
+    case 'x86_64': 
+        $download_url = 'https://github.com/SagerNet/sing-box/releases/download/v1.10.0-beta.4/sing-box-1.10.0-beta.4-linux-amd64.tar.gz'; 
+        break; 
+    default: 
+        logMessage("Download link not found for architecture: $current_arch"); 
+        echo "Download link not found for architecture: $current_arch"; 
+        exit; 
+} 
 
-logMessage("最新版本: $latest_version");
-logMessage("当前架构: $current_arch");
-logMessage("下载链接: $download_url");
+logMessage("Latest version: $latest_version"); 
+logMessage("Current architecture: $current_arch"); 
+logMessage("Download link: $download_url"); 
 
-if (trim($current_version) === trim($latest_version)) {
-    logMessage("当前版本已是最新版本，无需更新。");
-    echo "当前版本已是最新版本。";
-    exit;
-}
+if (trim($current_version) === trim($latest_version)) { 
+    logMessage("The current version is already the latest version, no need to update."); 
+    echo "The current version is already the latest version. "; 
+    exit; 
+} 
 
-logMessage("开始下载核心更新...");
-exec("wget -O '$temp_file' '$download_url'", $output, $return_var);
-logMessage("wget 返回值: $return_var");
+logMessage("Starting to download core update..."); 
+exec("wget ​​-O '$temp_file' '$download_url'", $output, $return_var); 
+logMessage("wget ​​return value: $return_var"); 
 
-if ($return_var === 0) {
-    if (!is_dir($temp_dir)) {
-        logMessage("创建临时解压目录: $temp_dir");
-        mkdir($temp_dir, 0755, true);
-    } else {
-        logMessage("临时解压目录已存在: $temp_dir");
-    }
+if ($return_var === 0) { 
+    if (!is_dir($temp_dir)) { 
+        logMessage("Creating temporary decompression directory: $temp_dir"); 
+        mkdir($temp_dir, 0755,true); 
+    } else { 
+        logMessage("Temporary decompression directory already exists: $temp_dir"); 
+    } 
 
-    logMessage("解压命令: tar -xzf '$temp_file' -C '$temp_dir'");
+    logMessage("Decompression command: tar -xzf '$temp_file' -C '$temp_dir'"); 
     exec("tar -xzf '$temp_file' -C '$temp_dir'", $output, $return_var);
-    logMessage("解压返回值: $return_var");
+    logMessage("Decompression return value: $return_var"); 
 
-    if ($return_var === 0) {
-        logMessage("解压后的文件列表:");
-        exec("ls -lR '$temp_dir'", $output);
-        logMessage(implode("\n", $output));
+        logMessage("File list after decompression:"); 
+        exec("ls -lR '$temp_dir'", $output); 
+        logMessage(implode("\n", $output)); 
 
-        $extracted_file = glob("$temp_dir/sing-box-*/*sing-box")[0] ?? '';
-        if ($extracted_file && file_exists($extracted_file)) {
-            logMessage("移动文件命令: cp -f '$extracted_file' '$install_path'");
-            exec("cp -f '$extracted_file' '$install_path'", $output, $return_var);
-            logMessage("替换文件返回值: $return_var");
+        $extracted_file = glob("$temp_dir/sing-box-*/*sing-box")[0] ?? ''; 
+        if ($extracted_file && file_exists($extracted_file)) { 
+            logMessage("Move file command: cp -f '$extracted_file' '$install_path'"); 
+            exec("cp -f '$extracted_file' '$install_path'", $output, $return_var); 
+            logMessage("Replace file return value: $return_var"); 
 
-            if ($return_var === 0) {
-                exec("chmod 0755 '$install_path'", $output, $return_var);
-                logMessage("设置权限命令: chmod 0755 '$install_path'");
-                logMessage("设置权限返回值: $return_var");
+            if ($return_var === 0) { 
+                exec("chmod 0755 '$install_path'", $output, $return_var); 
+                logMessage("Set permission command: chmod 0755 '$install_path'"); 
+                logMessage("Set permission return value: $return_var"); 
 
-                if ($return_var === 0) {
-                    logMessage("核心更新完成！当前版本: $latest_version");
+                if ($return_var === 0) { 
+                    logMessage("Core update completed! Current version: $latest_version"); 
                     writeVersionToFile($latest_version); 
-                    echo "更新完成！当前版本: $latest_version";
-                } else {
-                    logMessage("设置权限失败！");
-                    echo "设置权限失败！";
-                }
-            } else {
-                logMessage("替换文件失败，返回值: $return_var");
-                echo "替换文件失败！";
-            }
-        } else {
-            logMessage("解压后的文件 'sing-box' 不存在。");
-            echo "解压后的文件 'sing-box' 不存在。";
-        }
-    } else {
-        logMessage("解压失败，返回值: $return_var");
-        echo "解压失败！";
-    }
-} else {
-    logMessage("下载失败，返回值: $return_var");
-    echo "下载失败！";
-}
+                    echo "Update completed! Current version: $latest_version"; 
+                } else { 
+                    logMessage("Set permission failed!"); 
+                    echo "Set permission failed!"; 
+                } 
+            } else { 
+                logMessage("Replace file failed, return value: $return_var"); 
+                echo "Replace file failed!"; 
+            } 
+        } else { 
+            logMessage("The decompressed file 'sing-box' does not exist."); 
+            echo "The decompressed file 'sing-box' does not exist."; 
+        } 
+    } else { 
+        logMessage("Decompression failed, return value: $return_var"); 
+        echo "Decompression failed!"; 
+    } 
+} else { 
+    logMessage("Download failed, return value: $return_var"); 
+    echo "Download failed! "; 
+} 
 
-if (file_exists($temp_file)) {
-    unlink($temp_file);
-    logMessage("清理临时文件: $temp_file");
-}
-if (is_dir($temp_dir)) {
-    exec("rm -r '$temp_dir'");
-    logMessage("清理临时解压目录: $temp_dir");
-}
+if (file_exists($temp_file)) { 
+    unlink($temp_file); 
+    logMessage("Clean up temporary files: $temp_file"); 
+} 
+if (is_dir($temp_dir)) { 
+    exec("rm -r '$temp_dir'"); 
+    logMessage("Clean up temporary decompression directory: $temp_dir"); 
+} 
 ?>
