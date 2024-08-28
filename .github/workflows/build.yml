@@ -23,7 +23,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          repository: zesssttt/luci-app-nekoclash
+          repository: Thaolga/luci-app-nekoclash
           ref: main
 
       - name: Preparing Build Environment
