@@ -25,12 +25,6 @@ jobs:
         with:
           ref: luci-app-nekoclash
 
-      - name: Preparing Build Environment
-        run: |
-          echo "Setting up the build environment..."
-          mkdir feeds artifacts
-          cp -rf ./luci-app-nekoclash ./feeds
-
       - name: Building Luci NekoClash
         uses: nosignals/gh-action-sdk@main
         env:
