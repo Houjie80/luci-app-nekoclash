@@ -6,7 +6,7 @@ on:
       version:
         description: 'NekoClash version'
         required: true
-        default: '1.1.39-beta'
+        default: '1.1.38-beta'
         type: string
       changelog:
         description: 'Changelog'
@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: luci-app-nekoclash
-          path: ${{ github.workspace }}/artifacts/bin/packages/*/luci-app-nekoclash*.ipk
+          path: ${{ github.workspace }}/artifacts/bin/packages/*/action/luci-app-nekoclash*.ipk
 
   release_ipk:
     needs: build_ipk
@@ -61,6 +61,9 @@ jobs:
           mkdir -p release
           cp -rf ./luci-app-nekoclash*.ipk ./release/
 
+      - name: Verify Files
+        run: ls -l ./release/
+
       - name: Upload Release Asset
         uses: svenstaro/upload-release-action@v2
         with:
@@ -72,10 +75,11 @@ jobs:
           body: |
             # LUCI APP NEKOCLASH ${{ github.event.inputs.version }}
             Simple Clash TUN based Proxy
+            
             ### Information
-            - Changelog : 
+            - **Changelog**:
               - ${{ github.event.inputs.changelog }}
-            - Supported ARCH : 
+            - **Supported ARCH**:
               - `arm64 / aarch64`
               - `x86_64 / amd64`
             ### Dependency Requirement
@@ -83,6 +87,5 @@ jobs:
             - `iptables` (for OpenWrt 21)
             - `nftables` (for OpenWrt 23)
 
-            ### Please Install with normal Connectivity
-
-            ### Please Install with normal Connectivity
+            ### Installation Instructions
+            Please install with normal connectivity.
