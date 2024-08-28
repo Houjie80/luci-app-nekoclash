@@ -26,10 +26,15 @@ jobs:
           repository: Thaolga/luci-app-nekoclash
           ref: main
 
+      - name: List Repository Files
+        run: ls -la
+
       - name: Preparing Build Environment
         run: |
           echo "Setting up the build environment..."
           mkdir -p feeds artifacts
+          # List contents to verify
+          ls -la ./luci-app-nekoclash
           cp -rf ./luci-app-nekoclash ./feeds
 
       - name: Building Luci NekoClash
@@ -56,9 +61,14 @@ jobs:
         with:
           name: luci-app-nekoclash
 
+      - name: List Downloaded Files
+        run: ls -la ./artifacts
+
       - name: Prepare Release Files
         run: |
           mkdir -p release
+          # List contents to verify
+          ls -la ./luci-app-nekoclash*.ipk
           cp -rf ./luci-app-nekoclash*.ipk ./release/
 
       - name: Verify Files
