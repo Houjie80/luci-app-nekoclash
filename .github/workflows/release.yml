@@ -4,7 +4,7 @@ on:
   workflow_dispatch: {}
   push:
     branches:
-      - 't'
+      - 'main'
     paths:
       - 'luci-app-nekoclash/Makefile'
 env:
@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@main
         with:
           fetch-depth: 0
-          ref: 't'
+          ref: 'main'
 
       - name: Check version
         id: check_version
@@ -81,8 +81,8 @@ jobs:
           echo "src-git-full packages https://github.com/openwrt/packages.git;openwrt-23.05" >> feeds.conf
           echo "src-git-full luci https://git.openwrt.org/project/luci.git;openwrt-23.05" >> feeds.conf
           echo "src-git-full routing https://git.openwrt.org/feed/routing.git;openwrt-23.05"  >> feeds.conf
-          git clone -b master https://github.com/${{ github.repository }}.git package/downloads/luci-app-nekoclash
-          chmod +x package/downloads/luci-app-nekoclash/root/etc/init.d/nekoclash package/downloads/luci-app-nekoclash/root/usr/share/nekoclash/monitoring
+          git clone -b main https://github.com/${{ github.repository }}.git package/downloads/luci-app-nekoclash
+          chmod +x package/downloads/luci-app-nekoclash/root/etc/init.d/neko package/downloads/luci-app-nekoclash/root/etc/neko/core/neko package/downloads/luci-app-nekoclash/root/etc/neko/core/mihomo package/downloads/luci-app-nekoclash/root/etc/neko/core/reload package/downloads/luci-app-nekoclash/root/etc/neko/core/tun
           ./scripts/feeds update -a
           echo "CONFIG_PACKAGE_luci-app-nekoclash=m" > .config
           echo "CONFIG_LUCI_JSMIN=n" >> .config
