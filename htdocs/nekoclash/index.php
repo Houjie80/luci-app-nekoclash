@@ -869,27 +869,27 @@ $singboxStartLogContent = readLogFile($singboxStartLogFile);
 </head>
 <body>
     <div class="container container-bg border border-3 rounded-4 col-12 mb-4">
-        <h2 class="text-center p-2">Log</h2>
-        <div class="row mt-3">
-            <div class="col log-container">
-                <h4 class="log-header">Plugin log</h4>
-                <textarea class="form-control" readonly><?php echo htmlspecialchars($logContent, ENT_QUOTES, 'UTF-8'); ?></textarea>
+        <h2 class="text-center p-2">Logs</h2>
+        <div class="row mb-3">
+            <div class="mb-3">
+                <h4 class="log-header">Plugin Log</h4>
+                <textarea class="form-control" readonly><?php echo htmlspecialchars(strip_tags($logContent), ENT_QUOTES, 'UTF-8'); ?></textarea>
                 <form action="index.php" method="post" class="mt-3 log-footer">
-                    <button type="submit" name="clear_plugin_log" class="btn btn-danger btn-clear-log">Clear plugin log</button>
+                    <button type="submit" name="clear_plugin_log" class="btn btn-danger btn-clear-log">Clear Plugin Log</button>
                 </form>
             </div>
-            <div class="col log-container">
+            <div class="mb-3">
                 <h4 class="log-header">Mihomo Log</h4>
-                <textarea class="form-control" readonly><?php echo htmlspecialchars($kernelLogContent, ENT_QUOTES, 'UTF-8'); ?></textarea>
+                <textarea class="form-control" readonly><?php echo htmlspecialchars(strip_tags($kernelLogContent), ENT_QUOTES, 'UTF-8'); ?></textarea>
                 <form action="index.php" method="post" class="mt-3 log-footer">
-                    <button type="submit" name="clear_kernel_log" class="btn btn-danger btn-clear-log">Clear Mihomo log</button>
+                    <button type="submit" name="clear_kernel_log" class="btn btn-danger btn-clear-log">Clear Mihomo Log</button>
                 </form>
             </div>
-            <div class="col log-container">
-                <h4 class="log-header">Sing-box log</h4>
-                <textarea class="form-control" readonly><?php echo htmlspecialchars($singboxLogContent, ENT_QUOTES, 'UTF-8'); ?></textarea>
+            <div class="mb-3">
+                <h4 class="log-header">Sing-box Log</h4>
+                <textarea class="form-control" readonly><?php echo htmlspecialchars(strip_tags($singboxLogContent), ENT_QUOTES, 'UTF-8'); ?></textarea>
                 <form action="index.php" method="post" class="mt-3 log-footer">
-                    <button type="submit" name="clear_singbox_log" class="btn btn-danger btn-clear-log">Clear Sing-box log</button>
+                    <button type="submit" name="clear_singbox_log" class="btn btn-danger btn-clear-log">Clear Sing-box Log</button>
                 </form>
             </div>
         </div>
