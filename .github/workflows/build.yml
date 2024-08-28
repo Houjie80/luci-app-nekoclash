@@ -23,7 +23,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          repository: zesssttt//luci-app-nekoclash
+          repository: zesssttt/luci-app-nekoclash
           ref: main
 
       - name: Preparing Build Environment
@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: luci-app-nekoclash
-          path: ${{ github.workspace }}/artifacts/bin/packages/*/action/luci-app-nekoclash*
+          path: ${{ github.workspace }}/artifacts/bin/packages/*/luci-app-nekoclash*.ipk
 
   release_ipk:
     needs: build_ipk
@@ -59,7 +59,7 @@ jobs:
       - name: Prepare Release Files
         run: |
           mkdir -p release
-          cp -rf ./luci-app-nekoclash* ./release/
+          cp -rf ./luci-app-nekoclash*.ipk ./release/
 
       - name: Upload Release Asset
         uses: svenstaro/upload-release-action@v2
