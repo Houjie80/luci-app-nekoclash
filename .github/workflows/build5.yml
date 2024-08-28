@@ -36,7 +36,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: t
 
       - name: Building Luci Neko
         uses: Houjie80/gh-action-sdk@main
@@ -45,6 +45,9 @@ jobs:
           ARTIFACTS_DIR: ${{ github.workspace }}/artifacts
           FEED_DIR: ${{ github.workspace }}/feeds
           PACKAGES: luci-app-neko
+            echo "CONFIG_PACKAGE_luci-app-nekoclash=m" > .config
+            ./scripts/feeds install -d n luci-app-nekoclash
+            make download -j8
           NO_SHFMT_CHECK: 1
         
       - name: Delivering Package
