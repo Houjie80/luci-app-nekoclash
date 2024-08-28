@@ -26,15 +26,10 @@ jobs:
           repository: Thaolga/luci-app-nekoclash
           ref: main
 
-      - name: List Repository Files
-        run: ls -la
-
       - name: Preparing Build Environment
         run: |
           echo "Setting up the build environment..."
-          mkdir -p feeds artifacts
-          # List contents to verify
-          ls -la ./luci-app-nekoclash
+          mkdir feeds artifacts
           cp -rf ./luci-app-nekoclash ./feeds
 
       - name: Building Luci NekoClash
@@ -48,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: luci-app-nekoclash
-          path: ${{ github.workspace }}/artifacts/bin/packages/*/action/luci-app-nekoclash*.ipk
+          path: ${{ github.workspace }}/artifacts/bin/packages/*/action/luci-app-nekoclash*
 
   release_ipk:
     needs: build_ipk
@@ -61,18 +56,10 @@ jobs:
         with:
           name: luci-app-nekoclash
 
-      - name: List Downloaded Files
-        run: ls -la ./artifacts
-
       - name: Prepare Release Files
         run: |
           mkdir -p release
-          # List contents to verify
-          ls -la ./luci-app-nekoclash*.ipk
-          cp -rf ./luci-app-nekoclash*.ipk ./release/
-
-      - name: Verify Files
-        run: ls -l ./release/
+          cp -rf ./luci-app-nekoclash* ./release/
 
       - name: Upload Release Asset
         uses: svenstaro/upload-release-action@v2
@@ -85,11 +72,10 @@ jobs:
           body: |
             # LUCI APP NEKOCLASH ${{ github.event.inputs.version }}
             Simple Clash TUN based Proxy
-            
             ### Information
-            - **Changelog**:
+            - Changelog : 
               - ${{ github.event.inputs.changelog }}
-            - **Supported ARCH**:
+            - Supported ARCH : 
               - `arm64 / aarch64`
               - `x86_64 / amd64`
             ### Dependency Requirement
@@ -97,5 +83,6 @@ jobs:
             - `iptables` (for OpenWrt 21)
             - `nftables` (for OpenWrt 23)
 
-            ### Installation Instructions
-            Please install with normal connectivity.
+            ### Please Install with normal Connectivity
+
+            ### Please Install with normal Connectivity
