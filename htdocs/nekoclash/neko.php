@@ -1,20 +1,20 @@
 <?php
 function logMessage($message) {
-    $logFile = '/var/log/mihomo_update.log'; 
-    $timestamp = date('Y-m-d H:i:s');
+    $logFile = '/var/log/mihomo_update.log';
+    $timestamp = date('Ymd H:i:s');
     file_put_contents($logFile, "[$timestamp] $message\n", FILE_APPEND);
 }
 
-$latest_version = 'neko_v1.18.1'; 
-$current_version = ''; 
-$install_path = '/etc/neko/core/mihomo'; 
-$temp_file = '/tmp/mihomo.gz'; 
+$latest_version = 'neko_v1.18.1';
+$current_version = '';
+$install_path = '/etc/neko/core/mihomo';
+$temp_file = '/tmp/mihomo.gz';
 
 if (file_exists($install_path)) {
     $current_version = shell_exec("{$install_path} --version");
-    logMessage("当前版本: $current_version");
+    logMessage("Current version: $current_version");
 } else {
-    logMessage("当前版本文件不存在，将视为未安装。");
+    logMessage("The current version file does not exist and will be considered as not installed.");
 }
 
 $current_arch = shell_exec("uname -m");
@@ -32,67 +32,67 @@ switch ($current_arch) {
         $download_url = 'https://github.com/Thaolga/neko/releases/download/core_neko/mihomo-linux-amd64-neko.gz';
         break;
     default:
-        logMessage("未找到适合架构的下载链接: $current_arch");
-        echo "未找到适合架构的下载链接: $current_arch";
+        logMessage("No download link found for the appropriate architecture: $current_arch");
+        echo "No download link found for the appropriate architecture: $current_arch";
         exit;
 }
 
-logMessage("最新版本: $latest_version");
-logMessage("当前架构: $current_arch");
-logMessage("下载链接: $download_url");
+logMessage("Latest version: $latest_version");
+logMessage("Current architecture: $current_arch");
+logMessage("Download link: $download_url");
 
 if (trim($current_version) === trim($latest_version)) {
-    logMessage("当前版本已是最新版本，无需更新。");
-    echo "当前版本已是最新版本。";
+    logMessage("The current version is the latest version, no need to update.");
+    echo "The current version is the latest version.";
     exit;
 }
 
-logMessage("开始下载核心更新...");
-exec("wget -O '$temp_file' '$download_url' 2>&1", $output, $return_var);
-logMessage("wget 输出: " . implode("\n", $output));
-logMessage("wget 返回值: $return_var");
+logMessage("Start downloading core update...");
+exec("wget ​​-O '$temp_file' '$download_url' 2>&1", $output, $return_var);
+logMessage("wget ​​output: " . implode("\n", $output));
+logMessage("wget ​​return value: $return_var");
 
 if ($return_var === 0) {
     $temp_unzip_file = '/tmp/mihomo-linux-arm64-neko';
 
-    logMessage("解压命令: gzip -d -c '$temp_file' > '$temp_unzip_file'");
+    logMessage("decompression command: gzip -d -c '$temp_file' > '$temp_unzip_file'");
     exec("gzip -d -c '$temp_file' > '$temp_unzip_file' 2>&1", $output, $return_var);
-    logMessage("解压输出: " . implode("\n", $output));
-    logMessage("解压返回值: $return_var");
+    logMessage("Decompression output: " .implode("\n", $output));
+    logMessage("decompression return value: $return_var");
 
     if ($return_var === 0) {
-        logMessage("重命名文件: mv '$temp_unzip_file' '$install_path'");
+        logMessage("Rename file: mv '$temp_unzip_file' '$install_path'");
         exec("mv '$temp_unzip_file' '$install_path' 2>&1", $output, $return_var);
-        logMessage("重命名输出: " . implode("\n", $output));
-        logMessage("重命名返回值: $return_var");
+        logMessage("Rename output: " .implode("\n", $output));
+        logMessage("Rename return value: $return_var");
 
         if ($return_var === 0) {
             exec("chmod 0755 '$install_path'", $output, $return_var);
-            logMessage("设置权限命令: chmod 0755 '$install_path'");
-            logMessage("设置权限返回值: $return_var");
+            logMessage("Set permission command: chmod 0755 '$install_path'");
+            logMessage("Set permission return value: $return_var");
 
             if ($return_var === 0) {
-                logMessage("核心更新完成！当前版本: $latest_version");
-                echo "更新完成！当前版本: $latest_version";
+                logMessage("Core update completed! Current version: $latest_version");
+                echo "Update completed! Current version: $latest_version";
             } else {
-                logMessage("设置权限失败！");
-                echo "设置权限失败！";
+                logMessage("Failed to set permissions!");
+                echo "Failed to set permissions!";
             }
         } else {
-            logMessage("重命名文件失败，返回值: $return_var");
-            echo "重命名文件失败！";
+            logMessage("Failed to rename the file, return value: $return_var");
+            echo "Failed to rename file!";
         }
     } else {
-        logMessage("解压失败，返回值: $return_var");
-        echo "解压失败！";
+        logMessage("Decompression failed, return value: $return_var");
+        echo "Decompression failed!";
     }
 } else {
-    logMessage("下载失败，返回值: $return_var");
-    echo "下载失败！";
+    logMessage("Download failed, return value: $return_var");
+    echo "Download failed!";
 }
 
 if (file_exists($temp_file)) {
     unlink($temp_file);
-    logMessage("清理临时文件: $temp_file");
+    logMessage("Cleaning temporary files: $temp_file");
 }
 ?>
