@@ -1,12 +1,10 @@
-name: Build IPK
+name: Build and Release IPK
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch: # Allows you to manually trigger the workflow from the Actions tab
 
 jobs:
   build:
@@ -39,8 +37,21 @@ jobs:
           make menuconfig
           make package/luci-app-nekoclash/compile V=s
 
-      - name: Upload IPK
-        uses: actions/upload-artifact@v3
+      - name: Create Draft Release
+        id: create_release
+        uses: actions/create-release@v1
         with:
-          name: luci-app-nekoclash-ipk
-          path: $SDK_DIR/bin/packages/x86_64/base/luci-app-nekoclash_*.ipk
+          tag_name: 'v${{ github.run_number }}'
+          release_name: 'Release v${{ github.run_number }}'
+          draft: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload IPK
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/openwrt-sdk-x86_64_gcc-8.4.0_musl.Linux-x86_64/bin/packages/x86_64/base/luci-app-nekoclash_*.ipk
+          asset_name: luci-app-nekoclash_$(date +%F).ipk
+          asset_content_type: application/octet-stream
