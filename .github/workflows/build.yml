@@ -1,4 +1,4 @@
-name: Build IPK
+name: Build IPK for luci-app-nekoclash
 
 on:
   push:
@@ -16,23 +16,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up environment
+      - name: Set up build environment
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential git subversion
-
-      - name: Install OpenWrt build dependencies
-        run: |
           sudo apt-get install -y zlib1g-dev libncurses5-dev gawk flex quilt curl libssl-dev xsltproc wget unzip
 
       - name: Clone OpenWrt source
         run: |
-          git clone https://github.com/openwrt/openwrt.git
+          git clone --branch openwrt-23.05 https://github.com/openwrt/openwrt.git
           cd openwrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-      - name: Add custom feed
+      - name: Add custom feeds
         run: |
           cd openwrt
           echo 'src-git luci https://github.com/openwrt/luci.git' >> feeds.conf.default
@@ -40,13 +37,19 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-      - name: Build package
+      - name: Configure build
         run: |
           cd openwrt
-          make menuconfig # Optional, configure build settings manually
+          # Optionally, you can use a default configuration file if available
+          # cp /path/to/your/.config .config
+          make menuconfig # This step is optional and allows manual configuration
+
+      - name: Build luci-app-nekoclash
+        run: |
+          cd openwrt
           make package/luci-app-nekoclash/compile V=s
 
-      - name: Archive IPK
+      - name: Archive IPK files
         uses: actions/upload-artifact@v3
         with:
           name: ipk-package
