@@ -1,4 +1,4 @@
-name: Build OpenWrt Package
+name: Build and Test
 
 on:
   push:
@@ -11,34 +11,38 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup OpenWrt Build Environment
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential git libncurses5-dev zlib1g-dev gawk flex gettext wget unzip
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '1.19'  # Ganti dengan versi Go yang Anda gunakan
 
-      - name: Clone OpenWrt Source
-        run: |
-          git clone https://git.openwrt.org/openwrt/openwrt.git
-          cd openwrt
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
+    - name: Cache Go modules
+      uses: actions/cache@v3
+      with:
+        path: |
+          **/go/pkg/mod
+          **/go.sum
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
 
-      - name: Add Custom Feed for luci-app-nekoclash
-        run: |
-          echo "src-git nekoclash https://github.com/zesssttt/luci-app-nekoclash.git" >> openwrt/feeds.conf.default
-          
-      - name: Build luci-app-nekoclash Package
-        run: |
-          cd openwrt
-          make menuconfig # Optional: For interactive configuration, usually not required in CI
-          make package/luci-app-nekoclash/compile V=s
+    - name: Install dependencies
+      run: go mod download
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: openwrt-packages
-          path: openwrt/bin/packages/*/*/*.ipk
+    - name: Build
+      run: go build -v ./...
+
+    - name: Run tests
+      run: go test -v ./...
+
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: |
+          ./path-to-your-binary
