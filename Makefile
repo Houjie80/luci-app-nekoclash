@@ -29,6 +29,9 @@ define Build/Prepare
 	$(CP) $(CURDIR)/root $(PKG_BUILD_DIR)
 	$(CP) $(CURDIR)/luasrc $(PKG_BUILD_DIR)
 	$(CP) $(CURDIR)/htdocs $(PKG_BUILD_DIR)
+        sed -i "s/v0.00.00-beta/v$(PKG_VERSION)-beta/g" $(PKG_BUILD_DIR)/root/www/nekoclash/curent.svg >/dev/null 2>&1
+	sed -i "s/v0.00.00-beta/v$(PKG_VERSION)-beta/g" $(PKG_BUILD_DIR)/root/www/nekoclash/versionmain.txt >/dev/null 2>&1
+	sed -i "s/v0.00.00-beta/v$(PKG_VERSION)-beta/g" $(PKG_BUILD_DIR)/root/www/nekoclash/versiondev.txt >/dev/null 2>&1
 	chmod 0755 $(PKG_BUILD_DIR)/root/root/nekoclash.sh
 	chmod 0755 $(PKG_BUILD_DIR)/root/etc/init.d/neko
 	chmod 0755 $(PKG_BUILD_DIR)/root/etc/neko/core/*
