@@ -1,48 +1,54 @@
-name: Build and Test
+name: Build OpenWRT
 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - name: Set up Git
+      uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: '1.19'  # Ganti dengan versi Go yang Anda gunakan
+    - name: Set up environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libncurses5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc wget unzip python3
 
-    - name: Cache Go modules
-      uses: actions/cache@v3
-      with:
-        path: |
-          **/go/pkg/mod
-          **/go.sum
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-go-
+    - name: Clone OpenWRT Source
+      run: |
+        git clone https://github.com/openwrt/openwrt.git
+        cd openwrt
+        git checkout v22.03.0
 
-    - name: Install dependencies
-      run: go mod download
+    - name: Add Luci App NekoClash
+      run: |
+        cd openwrt/package
+        git clone https://github.com/zesssttt/luci-app-nekoclash.git
+        cd ..
 
-    - name: Build
-      run: go build -v ./...
+    - name: Update Feeds
+      run: |
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
 
-    - name: Run tests
-      run: go test -v ./...
+    - name: Configure Build
+      run: |
+        cp .config.seed .config
+        make defconfig
 
-    - name: Archive build artifacts
+    - name: Build OpenWRT
+      run: |
+        make -j$(nproc) V=s
+
+    - name: Upload Firmware
       uses: actions/upload-artifact@v3
       with:
-        name: build-artifacts
-        path: |
-          ./path-to-your-binary
+        name: firmware
+        path: openwrt/bin/targets/
