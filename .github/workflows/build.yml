@@ -23,7 +23,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          ref: luci-app-nekoclash
+          repository: Thaolga/luci-app-nekoclash
+          ref: main
+
+      - name: Preparing Build Environment
+        run: |
+          echo "Setting up the build environment..."
+          mkdir -p feeds artifacts
+          cp -rf ./luci-app-nekoclash ./feeds
 
       - name: Building Luci NekoClash
         uses: nosignals/gh-action-sdk@main
