@@ -1,56 +1,88 @@
-name: Build IPK for luci-app-nekoclash
+name: Build and Release NekoClash
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'NekoClash version'
+        required: true
+        default: '1.1.38-beta'
+        type: string
+      changelog:
+        description: 'Changelog'
+        required: true
+        default: ''
+        type: string
 
 jobs:
-  build:
+  build_ipk:
+    name: Build NekoClash
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          repository: Thaolga/luci-app-nekoclash
+          ref: main
 
-      - name: Set up build environment
+      - name: Preparing Build Environment
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential git subversion
-          sudo apt-get install -y zlib1g-dev libncurses5-dev gawk flex quilt curl libssl-dev xsltproc wget unzip
+          echo "Setting up the build environment..."
+          mkdir -p feeds artifacts
+          cp -rf ./luci-app-nekoclash ./feeds
 
-      - name: Clone OpenWrt source
-        run: |
-          git clone --branch openwrt-23.05 https://github.com/openwrt/openwrt.git
-          cd openwrt
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
+      - name: Building Luci NekoClash
+        uses: nosignals/gh-action-sdk@main
+        env:
+          FEED_DIR: ${{ github.workspace }}/feeds
+          PACKAGES: luci-app-nekoclash
+          NO_SHFMT_CHECK: 1
 
-      - name: Add custom feeds
-        run: |
-          cd openwrt
-          echo 'src-git nekoclash https://github.com/zesssttt/luci-app-nekoclash.git' >> feeds.conf.default
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
-
-      - name: Configure build
-        run: |
-          cd openwrt
-          # Optionally, you can use a default configuration file if available
-          # cp /path/to/your/.config .config
-          make menuconfig # This step is optional and allows manual configuration
-
-      - name: Build luci-app-nekoclash
-        run: |
-          cd openwrt
-          make package/luci-app-nekoclash/compile V=s
-
-      - name: Archive IPK files
+      - name: Upload IPK Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ipk-package
-          path: |
-            openwrt/bin/packages/*/*/luci-app-nekoclash_*.ipk
+          name: luci-app-nekoclash
+          path: ${{ github.workspace }}/artifacts/bin/packages/*/action/luci-app-nekoclash*
+
+  release_ipk:
+    needs: build_ipk
+    name: Release IPK Package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download IPK Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: luci-app-nekoclash
+
+      - name: Prepare Release Files
+        run: |
+          mkdir -p release
+          cp -rf ./luci-app-nekoclash* ./release/
+
+      - name: Upload Release Asset
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./release/*
+          overwrite: true
+          tag: ${{ github.event.inputs.version }}
+          file_glob: true
+          body: |
+            # LUCI APP NEKOCLASH ${{ github.event.inputs.version }}
+            Simple Clash TUN based Proxy
+            ### Information
+            - Changelog : 
+              - ${{ github.event.inputs.changelog }}
+            - Supported ARCH : 
+              - `arm64 / aarch64`
+              - `x86_64 / amd64`
+            ### Dependency Requirement
+            - `bash, kmod-tun, php, php-cgi` (install PHP Manually before installing NekoClash)
+            - `iptables` (for OpenWrt 21)
+            - `nftables` (for OpenWrt 23)
+
+            ### Please Install with normal Connectivity
+
+            ### Please Install with normal Connectivity
