@@ -32,7 +32,6 @@ jobs:
       - name: Add custom feeds
         run: |
           cd openwrt
-          echo 'src-git luci https://github.com/openwrt/luci.git' >> feeds.conf.default
           echo 'src-git nekoclash https://github.com/zesssttt/luci-app-nekoclash.git' >> feeds.conf.default
           ./scripts/feeds update -a
           ./scripts/feeds install -a
