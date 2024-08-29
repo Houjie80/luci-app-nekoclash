@@ -1,4 +1,4 @@
-name: Build OpenWrt Package
+name: Build IPK
 
 on:
   push:
@@ -11,41 +11,36 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout OpenWrt
+      - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          repository: openwrt/openwrt
-          ref: openwrt-23.05
 
-      - name: Setup OpenWrt Build Environment
+      - name: Setup OpenWrt SDK
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential git unzip wget
+          sudo apt-get install -y build-essential ccache libncurses5-dev zlib1g-dev gawk flex gettext wget unzip python3-distutils
+          wget https://downloads.openwrt.org/releases/22.03.3/targets/x86/64/openwrt-sdk-x86_64_gcc-8.4.0_musl.Linux-x86_64.tar.xz
+          tar xf openwrt-sdk-x86_64_gcc-8.4.0_musl.Linux-x86_64.tar.xz
+          export SDK_DIR=$(pwd)/openwrt-sdk-x86_64_gcc-8.4.0_musl.Linux-x86_64
+          cd $SDK_DIR
 
-      - name: Clone luci-app-nekoclash Repository
+      - name: Install Dependencies
         run: |
-          git clone https://github.com/zesssttt/luci-app-nekoclash.git
-          
-      - name: Copy luci-app-nekoclash to OpenWrt Packages
-        run: |
-          cp -r luci-app-nekoclash/package/* openwrt/package/
-
-      - name: Configure OpenWrt Build
-        run: |
-          cd openwrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-      - name: Build OpenWrt
+      - name: Build Package
         run: |
-          cd openwrt
+          cd $SDK_DIR/package
+          git clone https://github.com/zesssttt/luci-app-nekoclash.git
+          cd luci-app-nekoclash
+          ./scripts/feeds install luci-app-nekoclash
+          cd $SDK_DIR
           make menuconfig
-          make -j$(nproc) V=s
+          make package/luci-app-nekoclash/compile V=s
 
-      - name: Archive Build Artifacts
+      - name: Upload IPK
         uses: actions/upload-artifact@v3
         with:
-          name: openwrt-build
-          path: openwrt/bin/
+          name: luci-app-nekoclash-ipk
+          path: $SDK_DIR/bin/packages/x86_64/base/luci-app-nekoclash_*.ipk
