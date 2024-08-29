@@ -101,6 +101,10 @@ jobs:
           echo "CONFIG_LUCI_CSSTIDY=n" >> .config
           echo "CONFIG_PACKAGE_luci-app-nekoclash=m" >> .config
           make defconfig
+      - name: Clone Repository
+        uses: actions/checkout@v4
+        with:
+          ref: package   
       - name: Compile IPK
         id: compile
         run: |
