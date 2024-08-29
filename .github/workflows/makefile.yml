@@ -1,45 +1,63 @@
-# Makefile untuk membangun paket IPK
+name: Build IPK
 
-PKG_NAME:=luci-app-nekoclash-mod
-PKG_VERSION:=1.0.0
-PKG_RELEASE:=1
-PKG_ARCH:=all
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-include $(TOPDIR)/rules.mk
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-# Tentukan folder kontrol
-PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-define Package/$(PKG_NAME)
-  SECTION:=luci
-  CATEGORY:=LucI
-  TITLE:=Luci App Nekoclash Mod
-endef
+      - name: Set up OpenWrt build environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            git \
+            wget \
+            unzip \
+            libncurses5-dev \
+            zlib1g-dev \
+            gawk \
+            flex \
+            quilt \
+            subversion \
+            libssl-dev \
+            xsltproc \
+            perl \
+            gettext \
+            python3
 
-define Package/$(PKG_NAME)/description
-  Luci App Nekoclash Mod adalah aplikasi modifikasi untuk OpenWRT LUCI.
-endef
+      - name: Install OpenWrt build system
+        run: |
+          mkdir -p ~/openwrt
+          cd ~/openwrt
+          git clone https://github.com/openwrt/openwrt.git .
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
 
-define Build/Prepare
-  mkdir -p $(PKG_BUILD_DIR)
-  cp -r files/* $(PKG_BUILD_DIR)/
-endef
+      - name: Copy package files
+        run: |
+          mkdir -p ~/openwrt/package
+          cp -r ./* ~/openwrt/package/
 
-define Build/Compile
-  # Tidak ada kompilasi diperlukan
-endef
+      - name: Build package
+        run: |
+          cd ~/openwrt
+          make menuconfig
+          make package/luci-app-nekoclash-mod/compile V=s
 
-define Build/Install
-  mkdir -p $(1)/etc/init.d
-  cp -r $(PKG_BUILD_DIR)/etc $(1)/
-  cp -r $(PKG_BUILD_DIR)/usr $(1)/
-endef
-
-define Package/$(PKG_NAME)/install
-  $(INSTALL_DIR) $(1)/etc/init.d
-  $(INSTALL_BIN) $(PKG_BUILD_DIR)/etc/init.d/nekoclash $(1)/etc/init.d/
-  $(INSTALL_DIR) $(1)/usr/bin
-  $(INSTALL_BIN) $(PKG_BUILD_DIR)/usr/bin/nekoclash $(1)/usr/bin/
-endef
-
-$(eval $(call BuildPackage,$(PKG_NAME)))
+      - name: Archive IPK files
+        uses: actions/upload-artifact@v3
+        with:
+          name: ipk-files
+          path: |
+            ~/openwrt/bin/packages/*/*.ipk
