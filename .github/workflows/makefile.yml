@@ -1,3 +1,49 @@
+# Nama paket dan versi
+PKG_NAME := luci-app-nekoclash-mod
+PKG_VERSION := 1.0.0
+PKG_RELEASE := 1
+PKG_ARCH := all
+
+# Direktori build
+PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+
+include $(TOPDIR)/rules.mk
+
+define Package/$(PKG_NAME)
+  SECTION := luci
+  CATEGORY := Luci
+  TITLE := Luci App Nekoclash Mod
+  DEPENDS := +luci +coreutils
+endef
+
+define Package/$(PKG_NAME)/description
+  Luci App Nekoclash Mod adalah aplikasi modifikasi untuk OpenWRT LUCI.
+endef
+
+define Build/Prepare
+  mkdir -p $(PKG_BUILD_DIR)
+  cp -r files/* $(PKG_BUILD_DIR)/
+endef
+
+define Build/Compile
+  # Tidak ada kompilasi yang diperlukan
+endef
+
+define Build/Install
+  mkdir -p $(1)/etc/init.d
+  cp -r $(PKG_BUILD_DIR)/etc $(1)/
+  cp -r $(PKG_BUILD_DIR)/usr $(1)/
+endef
+
+define Package/$(PKG_NAME)/install
+  $(INSTALL_DIR) $(1)/etc/init.d
+  $(INSTALL_BIN) $(PKG_BUILD_DIR)/etc/init.d/nekoclash $(1)/etc/init.d/
+  $(INSTALL_DIR) $(1)/usr/bin
+  $(INSTALL_BIN) $(PKG_BUILD_DIR)/usr/bin/nekoclash $(1)/usr/bin/
+endef
+
+$(eval $(call BuildPackage,$(PKG_NAME)))
+
 name: Build IPK
 
 on:
