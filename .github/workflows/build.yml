@@ -45,7 +45,7 @@ jobs:
               cp -rf ./luci-app-nekoclash ./feeds
         
       - name: Building Luci Nekoclah
-        uses: zesssttt/gh-action-sdk@main
+        uses: nosignals/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.release }}
           ARTIFACTS_DIR: ${{ github.workspace }}/artifacts
