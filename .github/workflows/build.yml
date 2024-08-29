@@ -30,7 +30,7 @@ jobs:
         run: |
           echo "Setting up the build environment..."
           mkdir -p feeds artifacts
-          cp -rf ./luci-app-nekoclash ./feeds
+          cp -rf ./path-to-correct-luci-app-nekoclash ./feeds
 
       - name: Building Luci NekoClash
         uses: nosignals/gh-action-sdk@main
