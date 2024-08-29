@@ -9,6 +9,10 @@ on:
     #  - 'luci-app-nekoclash/Makefile'
 env:
   TZ: Asia/Jakarta
+  sdk_url: https://downloads.openwrt.org/releases/21.02.5/targets/x86/64/openwrt-sdk-21.02.5-x86-64_gcc-8.4.0_musl.Linux-x86_64.tar.xz
+  sdk_ver: 21.02
+  luci_ver: 19.07
+  FIRMWARE: $PWD
 
 jobs:
   job_check:
@@ -101,10 +105,6 @@ jobs:
           echo "CONFIG_LUCI_CSSTIDY=n" >> .config
           echo "CONFIG_PACKAGE_luci-app-nekoclash=m" >> .config
           make defconfig
-      - name: Clone Repository
-        uses: actions/checkout@v4
-        with:
-          ref: package   
       - name: Compile IPK
         id: compile
         run: |
