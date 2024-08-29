@@ -4,7 +4,7 @@ on:
   workflow_dispatch: {}
   push:
     branches:
-      - ${{ github.ref_name }}
+      - '${{ github.ref_name }}'
     paths:
       - 'luci-app-nekoclash/Makefile'
 env:
@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@main
         with:
           fetch-depth: 0
-          ref: ${{ github.ref_name }}
+          ref: '${{ github.ref_name }}'
 
       - name: Check version
         id: check_version
