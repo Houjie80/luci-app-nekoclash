@@ -1,57 +1,52 @@
-name: Build and Release IPK
+name: Build OpenWrt
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch: # Allows you to manually trigger the workflow from the Actions tab
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Setup OpenWrt SDK
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential ccache libncurses5-dev zlib1g-dev gawk flex gettext wget unzip python3-distutils
-          wget https://downloads.openwrt.org/releases/22.03.3/targets/x86/64/openwrt-sdk-x86_64_gcc-8.4.0_musl.Linux-x86_64.tar.xz
-          tar xf openwrt-sdk-x86_64_gcc-8.4.0_musl.Linux-x86_64.tar.xz
-          export SDK_DIR=$(pwd)/openwrt-sdk-x86_64_gcc-8.4.0_musl.Linux-x86_64
-          cd $SDK_DIR
+    - name: Set up OpenWrt build environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential ccache zlib1g-dev libncurses5-dev gawk flex quilt libssl-dev xsltproc wget unzip python3
+        mkdir -p ~/openwrt
+        cd ~/openwrt
+        git clone https://git.openwrt.org/openwrt/openwrt.git
+        cd openwrt
+        git checkout v23.05
 
-      - name: Install Dependencies
-        run: |
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
+    - name: Add custom package feeds
+      run: |
+        cd ~/openwrt
+        echo "src-git nekoclash https://github.com/zesssttt/luci-app-nekoclash.git" >> feeds.conf.default
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
 
-      - name: Build Package
-        run: |
-          cd $SDK_DIR/package
-          git clone https://github.com/zesssttt/luci-app-nekoclash.git
-          cd luci-app-nekoclash
-          ./scripts/feeds install luci-app-nekoclash
-          cd $SDK_DIR
-          make menuconfig
-          make package/luci-app-nekoclash/compile V=s
+    - name: Build OpenWrt
+      run: |
+        cd ~/openwrt
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        make defconfig
+        make -j$(nproc) download
+        make -j$(nproc)
 
-      - name: Create Draft Release
-        id: create_release
-        uses: actions/create-release@v1
-        with:
-          tag_name: 'v${{ github.run_number }}'
-          release_name: 'Release v${{ github.run_number }}'
-          draft: true
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload IPK
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/openwrt-sdk-x86_64_gcc-8.4.0_musl.Linux-x86_64/bin/packages/x86_64/base/luci-app-nekoclash_*.ipk
-          asset_name: luci-app-nekoclash_$(date +%F).ipk
-          asset_content_type: application/octet-stream
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: openwrt-build
+        path: |
+          ~/openwrt/bin/
+          ~/openwrt/bin/targets/
+          ~/openwrt/bin/packages/
