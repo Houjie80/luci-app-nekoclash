@@ -2,11 +2,11 @@ name: "Build IPK12"
 on:
   repository_dispatch:
   workflow_dispatch: {}
-  push:
-    branches:
-      - '${{ github.ref_name }}'
-    paths:
-      - 'luci-app-nekoclash/Makefile'
+ # push:
+   # branches:
+   #   - '${{ github.ref_name }}'
+   # paths:
+    #  - 'luci-app-nekoclash/Makefile'
 env:
   TZ: Asia/Jakarta
 
