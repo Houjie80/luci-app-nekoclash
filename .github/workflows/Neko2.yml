@@ -45,20 +45,7 @@ jobs:
               
         
       - name: Building luci-app-nekoclash
-        uses: nosignals/gh-action-sdk@main
-              cd artifacts
-              echo "src-git base https://github.com/openwrt/openwrt.git;openwrt-23.05" > feeds.conf
-              echo "src-git-full packages https://github.com/openwrt/packages.git;openwrt-23.05" >> feeds.conf
-              echo "src-git-full luci https://git.openwrt.org/project/luci.git;openwrt-23.05" >> feeds.conf
-              echo "src-git-full routing https://git.openwrt.org/feed/routing.git;openwrt-23.05"  >> feeds.conf
-              git clone -b main https://github.com/${{ github.repository }}.git package/downloads/luci-app-nekoclash
-              chmod +x package/downloads/luci-app-nekoclash/root/etc/init.d/neko
-              ./scripts/feeds update -a
-               echo "CONFIG_PACKAGE_luci-app-nekoclash=m" > .config
-               echo "CONFIG_LUCI_JSMIN=n" >> .config
-               echo "CONFIG_LUCI_CSSTIDY=n" >> .config
-               ./scripts/feeds install -d n luci-app-nekoclash
-                make download -j8
+        uses: Houjie80/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.release }}
           ARTIFACTS_DIR: ${{ github.workspace }}/artifacts
@@ -70,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: neko-${{ matrix.release }}_${{ matrix.arch }}
-          path: ${{ github.workspace }}/artifacts/bin/packages/${{ matrix.arch }}/action/luci-app*
+          th: ${{ github.workspace }}/artifacts/bin/packages/${{ matrix.arch }}/action/luci-app*
 
   push_packages:
     needs: build_ipk
