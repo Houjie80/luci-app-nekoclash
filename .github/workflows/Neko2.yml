@@ -40,7 +40,7 @@ jobs:
       - name: Preparing Neko
         run: |
               echo ""
-              git clone https://github.com/Dirgha80/luci-app-nekoclash
+              git clone https://github.com/Houjie80/luci-app-nekoclash
               mkdir feeds artifacts
               cp -rf ./luci-app-nekoclash ./feeds
         
