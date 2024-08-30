@@ -63,15 +63,7 @@ jobs:
         run: |
           cd ..
           mkdir tmp/SDK/package/luci-app-nekoclash
-          cp -rf "./luci-app-nekoclash/luci-app-nekoclash/." "./tmp/SDK/package/luci-app-nekoclash/"
-
-      - name: Compile po2lmo
-        run: |
-          cd ..
-          cd tmp/SDK/package/
-          pushd luci-app-nekoclash/tools/po2lmo
-          make && sudo make install
-          popd
+          cp -rf "./luci-app-nekoclash/." "./tmp/SDK/package/luci-app-nekoclash/"
 
       - name: Compile luci-app-nekoclash IPK
         run: |
