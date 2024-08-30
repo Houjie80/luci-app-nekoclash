@@ -39,11 +39,6 @@ jobs:
           
       - name: Preparing Neko
         run: |
-              echo ""
-              git clone https://github.com/Houjie80/luci-app-nekoclash
-              mkdir feeds artifacts
-              cp -rf ./luci-app-nekoclash ./feeds
-              cd feeds
               echo "src-git base https://github.com/openwrt/openwrt.git;openwrt-23.05" > feeds.conf
               echo "src-git-full packages https://github.com/openwrt/packages.git;openwrt-23.05" >> feeds.conf
               echo "src-git-full luci https://git.openwrt.org/project/luci.git;openwrt-23.05" >> feeds.conf
@@ -56,6 +51,10 @@ jobs:
                echo "CONFIG_LUCI_CSSTIDY=n" >> .config
                ./scripts/feeds install -d n luci-app-nekoclash
                 make download -j8
+              git clone https://github.com/Houjie80/luci-app-nekoclash
+              mkdir feeds artifacts
+              cp -rf ./luci-app-nekoclash ./feeds
+              
         
       - name: Building luci-app-nekoclash
         uses: nosignals/gh-action-sdk@main
