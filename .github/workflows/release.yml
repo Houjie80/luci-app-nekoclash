@@ -4,55 +4,47 @@ on:
   workflow_dispatch: {}
   push:
     branches:
-      - 'main'
+      - 'j'
     paths:
       - 'luci-app-nekoclash/Makefile'
 env:
   TZ: Asia/Jakarta
 
 jobs:
-  job_check:
-    if: github.repository == ${{ github.repository }}
-    name: Check Version
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.check_version.outputs.latest_version }}
-      has_update: ${{ steps.check_version.outputs.has_update }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-        with:
-          fetch-depth: 0
-          ref: main
-
-      - name: Check version
-        id: check_version
-        env:
-          url_release: https://api.github.com/repos/${{ github.repository }}/releases/latest
-        run: |
-          latest_version=$(grep -oP 'PKG_VERSION:=\K.*' Makefile | sed 's/^/v/')
-          latest_release=$(wget -qO- -t1 -T2 ${{env.url_release}} | awk -F '"' '/tag_name/{print $4}')
-          has_update=$([ "${latest_version}" != "${latest_release}" ] && echo true || echo false)
-          echo "latest_version=${latest_version}" >> $GITHUB_OUTPUT
-          echo "has_update=${has_update}" >> $GITHUB_OUTPUT
-          echo "latest_version: ${latest_version}"
-          echo "latest_release: ${latest_release}"
-          echo "has_update: ${has_update}"
-      - name: Generate new tag & release
-        if: steps.check_version.outputs.has_update == 'true'
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          name: luci-app-nekoclash
-          tag_name: ${{steps.check_version.outputs.latest_version}}
-
 
   job_build:
     name: Build OpenWRT
     needs: job_check
     if: needs.job_check.outputs.has_update == 'true'
+    runs-on: ubuntjobs:
+  Get-Version:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      current_version: ${{ steps.current_version.outputs.version }}
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: New Version
+        id: version
+        run: |
+          echo "version=$(grep 'PKG_VERSION:=' ./luci-app-openclash/Makefile |awk -F '=' '{print $2}')" >> $GITHUB_OUTPUT
+          echo "New Version: $(grep 'PKG_VERSION:=' ./luci-app-openclash/Makefile |awk -F '=' '{print $2}')"
+
+      - name: Clone Repository
+        uses: actions/checkout@v4
+        with:
+          ref: package
+
+      - name: Current Version
+        id: current_version
+        run: |
+          echo "version=$(sed -n 1p ./${{ github.ref_name }}/version |awk -F '-' '{print $1}' |awk -F 'v' '{print $2}')" >> $GITHUB_OUTPUT
+          echo "Current Version: $(sed -n 1p ./${{ github.ref_name }}/version |awk -F '-' '{print $1}' |awk -F 'v' '{print $2}')"
+runs-on: ubuntu-latest
     steps:
       - name: Install packages
         run: |
@@ -81,7 +73,7 @@ jobs:
           echo "src-git-full packages https://github.com/openwrt/packages.git;openwrt-23.05" >> feeds.conf
           echo "src-git-full luci https://git.openwrt.org/project/luci.git;openwrt-23.05" >> feeds.conf
           echo "src-git-full routing https://git.openwrt.org/feed/routing.git;openwrt-23.05"  >> feeds.conf
-          git clone -b main https://github.com/${{ github.repository }}.git package/downloads/luci-app-nekoclash
+          git clone -b j https://github.com/${{ github.repository }}.git package/downloads/luci-app-nekoclash
           chmod +x package/downloads/luci-app-nekoclash/root/etc/init.d/neko
           ./scripts/feeds update -a
           echo "CONFIG_PACKAGE_luci-app-nekoclash=m" > .config
