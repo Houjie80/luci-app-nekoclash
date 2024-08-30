@@ -56,7 +56,7 @@ jobs:
       - name: Delivering Package
         uses: actions/upload-artifact@v3
         with:
-          name: neko-${{ matrix.release }}_${{ matrix.arch }}
+          name: nekoclash-${{ matrix.release }}_${{ matrix.arch }}
           th: ${{ github.workspace }}/artifacts/bin/packages/${{ matrix.arch }}/action/luci-app*
 
   push_packages:
@@ -73,7 +73,7 @@ jobs:
         shell: bash
         run: |
           mkdir ./release
-          cp -rf ./neko-23.05.4_x86_64/luci-app* ./release/luci-app-nekoclash_${{ inputs.version }}_all.ipk
+          cp -rf ./nekoclash-23.05.4_x86_64/luci-app* ./release/luci-app-nekoclash_${{ inputs.version }}_all.ipk
         
       - name: Upload release asset
         uses: svenstaro/upload-release-action@v2
