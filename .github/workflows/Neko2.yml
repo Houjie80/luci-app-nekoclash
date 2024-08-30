@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: luci-app-nekoclash-${{ matrix.release }}_${{ matrix.arch }}
-          th: ${{ github.workspace }}/artifacts/bin/packages/${{ matrix.arch }}/action/luci-app*
+          Path: ${{ github.workspace }}/artifacts/bin/packages/${{ matrix.arch }}/action/luci-app*
 
   push_packages:
     needs: build_ipk
