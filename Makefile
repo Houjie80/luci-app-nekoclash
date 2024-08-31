@@ -6,7 +6,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_MAINTAINER:=Thaolga <https://github.com/Thaolga/luci-app-nekoclash>
 PKG_NAME:=luci-app-nekoclash
-PKG_VERSION:=1.2.4-beta
+PKG_VERSION:=1.2.4
+PKG_RELEASE:=beta
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
@@ -68,6 +69,7 @@ define Package/$(PKG_NAME)/postinst
 		cp -rf /tmp/neko/proxy_provider/* "/etc/neko/proxy_provider/"
 		cp -rf /tmp/neko/rule_provider/* "/etc/neko/rule_provider/"
 	fi
+        sed -i "s/0.0.0-beta/$(PKG_VERSION)/g" $(PKG_BUILD_DIR)/root/etc/neko/core/neko
 	exit 0
 endef
 
