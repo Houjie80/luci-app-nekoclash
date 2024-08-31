@@ -49,8 +49,8 @@ jobs:
       - name: Current Version
         id: current_version
         run: |
-          echo "version=$(sed -n 1p ./${{ github.ref_name }}/neko-version |awk -F '-' '{print $1}' |awk -F 'v' '{print $2}')" >> $GITHUB_OUTPUT
-          echo "Current Version: $(sed -n 1p ./${{ github.ref_name }}/neko-version |awk -F '-' '{print $1}' |awk -F 'v' '{print $2}')"
+          echo "version=$(sed -n 1p ./${{ github.ref_name }}/neko_version |awk -F '-' '{print $1}' |awk -F 'v' '{print $2}')" >> $GITHUB_OUTPUT
+          echo "Current Version: $(sed -n 1p ./${{ github.ref_name }}/neko_version |awk -F '-' '{print $1}' |awk -F 'v' '{print $2}')"
 
   Compile:
     runs-on: ubuntu-latest
@@ -88,7 +88,7 @@ jobs:
           echo "src-git packages https://github.com/openwrt/packages.git;openwrt-${{ env.sdk_ver }}" >> feeds.conf
           echo "src-git luci https://github.com/openwrt/luci.git;openwrt-${{ env.sdk_ver }}" >> feeds.conf
           echo "src-git routing https://git.openwrt.org/feed/routing.git;openwrt-${{ env.sdk_ver }}"  >> feeds.conf
-          echo "src-git luci-app-nekoclash https://github.com/Houjie80/luci-app-nekoclash.git;dev" >> feeds.conf
+          echo "src-git luci-app-nekoclash https://github.com/Houjie80/luci-app-nekoclash.git;main" >> feeds.conf
           ./scripts/feeds update -a
           echo "CONFIG_PACKAGE_luci-app-nekoclash=m" > .config
           ./scripts/feeds install -d n luci-app-nekoclash
@@ -115,7 +115,7 @@ jobs:
           make package/luci-app-nekoclash/{clean,compile} -j$(nproc)
           mv bin/packages/x86_64/luci-app-nekoclash/ ../
           rm .config .config.old
-          cd ../nekoclash
+          cd ../luci-app-nekoclash
           for i in $(ls); do mv $i luci-${{ env.luci_ver }}_$i; done
           cd ..
           echo "status=success" >> $GITHUB_OUTPUT
