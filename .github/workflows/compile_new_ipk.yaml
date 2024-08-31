@@ -38,8 +38,8 @@ jobs:
       - name: New Version
         id: version
         run: |
-          echo "version=$(grep 'PKG_VERSION:=' ./luci-app-nekoclash/Makefile |awk -F '=' '{print $2}')" >> $GITHUB_OUTPUT
-          echo "New Version: $(grep 'PKG_VERSION:=' ./luci-app-nekoclash/Makefile |awk -F '=' '{print $2}')"
+          echo "version=$(grep 'PKG_VERSION:=' ./luci-app-nekoclash/luci-app-nekoclash/Makefile |awk -F '=' '{print $2}')" >> $GITHUB_OUTPUT
+          echo "New Version: $(grep 'PKG_VERSION:=' ./luci-app-nekoclash/luci-app-nekoclash/Makefile |awk -F '=' '{print $2}')"
 
       - name: Clone Repository
         uses: actions/checkout@v4
